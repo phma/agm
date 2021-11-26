@@ -15,4 +15,5 @@
 double sin(int angle);
 double cos(int angle);
 std::complex<double> cossin(int angle);
+int argi(std::complex<double> z);
 #endif

@@ -21,3 +21,8 @@ complex<double> cossin(int angle)
 {
   return complex<double>(cos(angle),sin(angle));
 }
+
+int argi(complex<double> z)
+{
+  return rint(arg(z)/M_PIl*1073741824.);
+}
