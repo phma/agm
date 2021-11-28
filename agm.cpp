@@ -29,7 +29,7 @@ AgmResult agm(complex<double> a,complex<double> g,string branch)
   int i=0;
   in.a=a;
   in.g=g;
-  do
+  while (true)
   {
     if (i<branch.length())
       in.d=branch[i]<<24;
@@ -38,7 +38,10 @@ AgmResult agm(complex<double> a,complex<double> g,string branch)
     out=agm1(in);
     ret.branch+=(char)((out.d+0x800000)>>24);
     ++i;
-  } while (i<branch.length() || (out.a!=out.g && out.g!=0.));
+    if (i>=branch.length() && (out.a==out.g || out.g==0.))
+      break;
+    in=out;
+  }
   pos=ret.branch.find_last_not_of('\0');
   if (pos<ret.branch.length())
     ret.branch.erase(pos+1);
