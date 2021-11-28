@@ -43,7 +43,8 @@ AgmResult agm(complex<double> a,complex<double> g,string branch)
     out=agm1(in);
     ret.branch+=(char)((out.d+0x800000)>>24);
     ++i;
-    if (i>=branch.length() && (out.a==out.g || out.g==0.))
+    if (i>=branch.length() && (out.a==out.g || out.g==0.
+			       || (out.a==in.a && out.g==in.g)))
       break;
     in=out;
   }
