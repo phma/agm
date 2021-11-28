@@ -37,11 +37,11 @@ AgmResult agm(complex<double> a,complex<double> g,string branch)
   while (true)
   {
     if (i<branch.length())
-      in.d=branch[i]<<24;
+      in.d=branch[i]<<23;
     else
       in.d=0;
     out=agm1(in);
-    ret.branch+=(char)((out.d+0x800000)>>24);
+    ret.branch+=(char)((out.d+0x400000)>>23);
     ++i;
     if (i>=branch.length() && (out.a==out.g || out.g==0.
 			       || (out.a==in.a && out.g==in.g)))
