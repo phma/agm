@@ -8,6 +8,20 @@
 #include "angle.h"
 using namespace std;
 
+/* The arithmetic-geometric mean is a transcendental function of two arguments
+ * with three branch points and countably infinitely many branches. Since
+ * agm(ax,ay)=a*agm(x,y), it can be curried into a function of one argument
+ * by holding the other fixed. With the argument fixed at 1, the branch points
+ * are 0, -1, and 1.
+ *
+ * The branch is passed as the third argument to the agm function and is
+ * represented as a string of bytes. It could be represented as a bit string,
+ * but a byte string allows one to pass smoothly from one branch to another.
+ * If it's a bit string, only finitely many of the bits can be 1, as for every
+ * 1 bit, abs(a)+abs(g) decreases by at least 14%. The bits or bytes represent
+ * the angle between a and g at each iteration.
+ */
+
 AgmRec agm1(AgmRec ag)
 {
   AgmRec ret;
