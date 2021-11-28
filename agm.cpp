@@ -29,6 +29,11 @@ AgmResult agm(complex<double> a,complex<double> g,string branch)
   int i=0;
   in.a=a;
   in.g=g;
+  pos=branch.find_last_not_of('\0');
+  if (pos<branch.length())
+    branch.erase(pos+1);
+  else
+    branch.clear();
   while (true)
   {
     if (i<branch.length())
@@ -42,11 +47,6 @@ AgmResult agm(complex<double> a,complex<double> g,string branch)
       break;
     in=out;
   }
-  pos=ret.branch.find_last_not_of('\0');
-  if (pos<ret.branch.length())
-    ret.branch.erase(pos+1);
-  else
-    ret.branch.clear();
   ret.m=out.g;
   return ret;
 }
