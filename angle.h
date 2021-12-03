@@ -17,6 +17,27 @@ double cos(int angle);
 std::complex<double> cossin(int angle);
 int argi(std::complex<double> z);
 
+double bintorot(int angle);
+double bintogon(int angle);
+double bintodeg(int angle);
+double bintomin(int angle);
+double bintosec(int angle);
+double bintorad(int angle);
+int rottobin(double angle);
+int degtobin(double angle);
+int mintobin(double angle);
+int sectobin(double angle);
+int gontobin(double angle);
+int radtobin(double angle);
+double radtodeg(double angle);
+double degtorad(double angle);
+double radtomin(double angle);
+double mintorad(double angle);
+double radtosec(double angle);
+double sectorad(double angle);
+double radtogon(double angle);
+double gontorad(double angle);
+
 #define SEC1 1657
 #define FURMAN1 32768
 #define MIN1 99421
