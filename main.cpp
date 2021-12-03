@@ -32,11 +32,11 @@ int main(int argc,char **argv)
   ps.setscale(-2,-1.5,2,1.5,0);
   ps.setcolor(0,0,1);
   ps.startline();
-  for (i=0;i<32;i++)
+  for (i=0;i<1440;i+=5)
   {
-    ag=agm(cossin(DEG45*i)*0.5,1,ag.branch);
+    ag=agm(cossin(degtobin(i))*0.5,1,ag.branch);
     ps.lineto(ag.m);
-    printag(ag);
+    //printag(ag);
   }
   ps.endline();
   return 0;
