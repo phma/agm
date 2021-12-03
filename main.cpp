@@ -32,13 +32,44 @@ int main(int argc,char **argv)
   ps.setscale(-2,-1.5,2,1.5,0);
   ps.setcolor(0,0,1);
   ps.startline();
-  for (i=0;i<1440;i+=5)
+  for (i=0;i<1440;i+=1)
   {
-    ag=agm(cossin(degtobin(i))*0.5,1,ag.branch);
+    ag=agm(cossin(degtobin(i))*0.9,1,ag.branch);
     ps.lineto(ag.m);
     //printag(ag);
   }
   ps.endline();
+  ps.endpage();
+  ps.startpage();
+  ps.setcolor(0,0,1);
+  ps.startline();
+  ag.branch="";
+  ag.m=1;
+  for (i=0;i<1440;i+=1)
+  {
+    ag=agm(cossin(degtobin(i))*1.1,1,ag.branch);
+    ps.lineto(ag.m);
+    //printag(ag);
+  }
+  ps.endline();
+  ps.endpage();
+  ps.startpage();
+  ps.setcolor(0,0,1);
+  ps.startline();
+  ag.branch="";
+  ag.m=1;
+  for (i=0;i>-180;i--)
+  {
+    ag=agm(cossin(degtobin(i)),1,ag.branch);
+  }
+  for (i=-180;i<=180;i+=1)
+  {
+    ag=agm(cossin(degtobin(i)),1,ag.branch);
+    ps.lineto(ag.m);
+    //printag(ag);
+  }
+  ps.endline();
+  ps.endpage();
   return 0;
 }
   
