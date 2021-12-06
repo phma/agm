@@ -65,3 +65,27 @@ AgmResult agm(complex<double> a,complex<double> g,string branch)
   ret.m=out.g;
   return ret;
 }
+
+vector<complex<double> > agmLattice(complex<double> a,complex<double> g,unsigned depth,unsigned level,string branch)
+{
+  vector<complex<double> > ret,otherSide;
+  AgmResult result;
+  int i;
+  if (level<depth)
+  {
+    ret=agmLattice(a,g,depth,level+1,branch);
+    while (branch.length()<=level)
+      branch+='\0';
+    branch[level]^=0x80;
+    result=agm(a,g,branch);
+    otherSide=agmLattice(a,g,depth,level+1,result.branch);
+    for (i=0;i<otherSide.size();i++)
+      ret.push_back(otherSide[i]);
+  }
+  else
+  {
+    result=agm(a,g,branch);
+    ret.push_back(result.m);
+  }
+  return ret;
+}

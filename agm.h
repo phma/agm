@@ -7,6 +7,7 @@
 #include <cmath>
 #include <complex>
 #include <string>
+#include <vector>
 
 struct AgmRec
 {
@@ -22,3 +23,4 @@ struct AgmResult
 
 AgmRec agm1(AgmRec ag);
 AgmResult agm(std::complex<double> a,std::complex<double> g=1,std::string branch="");
+std::vector<std::complex<double> > agmLattice(std::complex<double> a,std::complex<double> g=1,unsigned depth=0,unsigned level=0,std::string branch="");
