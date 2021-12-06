@@ -24,6 +24,7 @@ int main(int argc,char **argv)
 {
   AgmResult ag;
   PostScript ps;
+  vector<complex<double> > lattice;
   int i;
   ps.open("agm.ps");
   ps.setpaper(papersizes["A4 landscape"],0);
@@ -69,6 +70,14 @@ int main(int argc,char **argv)
     //printag(ag);
   }
   ps.endline();
+  ps.endpage();
+  ps.startpage();
+  ps.setcolor(0,0,1);
+  lattice=agmLattice(sqrt(2),1,8);
+  for (i=0;i<lattice.size();i++)
+  {
+    ps.dot(lattice[i]);
+  }
   ps.endpage();
   return 0;
 }
