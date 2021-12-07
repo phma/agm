@@ -74,7 +74,7 @@ vector<complex<double> > agmLattice(complex<double> a,complex<double> g,unsigned
   if (level<depth)
   {
     ret=agmLattice(a,g,depth,level+1,branch);
-    while (branch.length()<=level)
+    while (branch.length()<level)
       branch+='\0';
     branch[level]^=0x80;
     result=agm(a,g,branch);
