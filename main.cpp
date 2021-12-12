@@ -79,6 +79,9 @@ int main(int argc,char **argv)
     ps.dot(lattice[i]);
   }
   ps.endpage();
+  cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
+  cout<<pvAgm(pvAgm(2,5),pvAgm(3,7))<<' ';
+  cout<<pvAgm(pvAgm(2,7),pvAgm(5,3))<<endl;
   return 0;
 }
   

@@ -89,3 +89,9 @@ vector<complex<double> > agmLattice(complex<double> a,complex<double> g,unsigned
   }
   return ret;
 }
+
+complex<double> pvAgm(complex<double> a,complex<double> g)
+{
+  AgmResult res=agm(a,g,"");
+  return res.m;
+}
