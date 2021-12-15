@@ -95,3 +95,15 @@ complex<double> pvAgm(complex<double> a,complex<double> g)
   AgmResult res=agm(a,g,"");
   return res.m;
 }
+
+array<complex<double>,2> invAgm1(complex<double> a,complex<double> g)
+/* Returns two numbers whose arithmetic mean is a and geometric mean is g.
+ * You are responsible for swapping them if necessary.
+ */
+{
+  complex<double> diffsq=a*a-g*g;
+  array<complex<double>,2> ret;
+  ret[0]=a+sqrt(diffsq);
+  ret[1]=a-sqrt(diffsq);
+  return ret;
+}
