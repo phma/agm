@@ -4,6 +4,7 @@
 /*                                                    */
 /******************************************************/
 
+#include <cassert>
 #include "agm.h"
 #include "angle.h"
 using namespace std;
@@ -105,5 +106,23 @@ array<complex<double>,2> invAgm1(complex<double> a,complex<double> g)
   array<complex<double>,2> ret;
   ret[0]=a+sqrt(diffsq);
   ret[1]=a-sqrt(diffsq);
+  return ret;
+}
+
+vector<complex<double> > agmExpand(vector<complex<double> > loop)
+{
+  vector<complex<double> > ret;
+  int i,sz=loop.size();
+  array<complex<double>,2> agpair;
+  assert(sz%2==0);
+  ret.resize(sz*2);
+  for (i=0;i<sz;i++)
+  {
+    agpair=invAgm1(loop[i],loop[(i+sz/2)%sz]);
+    if (i && abs(agpair[1]-ret[i-1])<abs(agpair[1]-ret[i-1]))
+      swap(agpair[0],agpair[1]);
+    ret[i]=agpair[0];
+    ret[i+sz]=agpair[1];
+  }
   return ret;
 }
