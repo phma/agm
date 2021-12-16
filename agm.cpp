@@ -119,7 +119,7 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
   for (i=0;i<sz;i++)
   {
     agpair=invAgm1(loop[i],loop[(i+sz/2)%sz]);
-    if (i && abs(agpair[1]-ret[i-1])<abs(agpair[1]-ret[i-1]))
+    if (i && abs(agpair[1]-ret[i-1])<abs(agpair[0]-ret[i-1]))
       swap(agpair[0],agpair[1]);
     ret[i]=agpair[0];
     ret[i+sz]=agpair[1];
