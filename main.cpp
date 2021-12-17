@@ -9,6 +9,8 @@
 #include <cfloat>
 #include "agm.h"
 #include "angle.h"
+#include "pairwisesum.h"
+#include "ldecimal.h"
 #include "ps.h"
 using namespace std;
 
@@ -32,6 +34,16 @@ vector<complex<double> > tinyCircle(complex<double> center)
   return ret;
 }
 
+double avgRadius(vector<complex<double> > loop)
+{
+  int i,sz=loop.size();
+  vector<double> diams;
+  diams.resize(sz/2);
+  for (i=0;i<sz/2;i++)
+    diams[i]=abs(loop[i]-loop[i+sz/2]);
+  return pairwisesum(diams)/sz;
+}
+
 void printag(AgmResult ag)
 {
   int i;
@@ -48,7 +60,7 @@ int main(int argc,char **argv)
   vector<complex<double> > lattice;
   vector<vector<complex<double> > > loops;
   int i,j;
-  double minreal=1,maxreal=1,maximag=0;
+  double minreal=1,maxreal=1,maximag=0,diam;
   ps.open("agm.ps");
   ps.setpaper(papersizes["A4 landscape"],0);
   ps.prolog();
@@ -127,6 +139,11 @@ int main(int argc,char **argv)
       ps.dot(loops[i][j]);
     }
     ps.endpage();
+  }
+  for (i=0;i<3;i++)
+  {
+    diam=avgRadius(loops[i]);
+    cout<<i<<' '<<ldecimal(diam)<<' '<<ldecimal(log(diam))<<endl;
   }
   cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
   cout<<pvAgm(pvAgm(2,5),pvAgm(3,7))<<' ';
