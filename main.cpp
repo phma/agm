@@ -60,7 +60,7 @@ int main(int argc,char **argv)
   vector<complex<double> > lattice;
   vector<vector<complex<double> > > loops;
   int i,j;
-  double minreal=1,maxreal=1,maximag=0,diam;
+  double minreal=1,maxreal=1,maximag=0,diam[3];
   ps.open("agm.ps");
   ps.setpaper(papersizes["A4 landscape"],0);
   ps.prolog();
@@ -142,9 +142,11 @@ int main(int argc,char **argv)
   }
   for (i=0;i<3;i++)
   {
-    diam=avgRadius(loops[i]);
-    cout<<i<<' '<<ldecimal(diam)<<' '<<ldecimal(log(diam))<<endl;
+    diam[i]=avgRadius(loops[i]);
+    cout<<i<<' '<<ldecimal(diam[i])<<' '<<ldecimal(log(diam[i]))<<endl;
   }
+  cout<<ldecimal(log(diam[0]/diam[1])/log(diam[1]/diam[2]))<<" should be 2\n";
+  cout<<"y for 65-ulp loop around 1 is "<<ldecimal(2*(log(diam[1]/diam[0])))<<endl;
   cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
   cout<<pvAgm(pvAgm(2,5),pvAgm(3,7))<<' ';
   cout<<pvAgm(pvAgm(2,7),pvAgm(5,3))<<endl;
