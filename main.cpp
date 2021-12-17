@@ -45,8 +45,10 @@ int main(int argc,char **argv)
 {
   AgmResult ag;
   PostScript ps;
-  vector<complex<double> > lattice,bean;
-  int i;
+  vector<complex<double> > lattice;
+  vector<vector<complex<double> > > loops;
+  int i,j;
+  double minreal=1,maxreal=1,maximag=0;
   ps.open("agm.ps");
   ps.setpaper(papersizes["A4 landscape"],0);
   ps.prolog();
@@ -100,16 +102,32 @@ int main(int argc,char **argv)
     ps.dot(lattice[i]);
   }
   ps.endpage();
-  ps.startpage();
-  ps.setcolor(0,0,1);
-  bean=tinyCircle(1);
-  for (i=0;i<4;i++)
-    bean=agmExpand(bean);
-  for (i=0;i<bean.size();i++)
+  loops.resize(12);
+  for (i=0;i<12;i++)
   {
-    ps.dot(bean[i]);
+    if (!i)
+      loops[i]=tinyCircle(1);
+    else
+      loops[i]=agmExpand(loops[i-1]);
+    ps.startpage();
+    ps.setcolor(0,0,1);
+    for (j=0;j<loops[i].size();j++)
+    {
+      if (loops[i][j].real()>maxreal)
+	maxreal=loops[i][j].real();
+      if (loops[i][j].real()<minreal)
+	minreal=loops[i][j].real();
+      if (loops[i][j].imag()>maximag)
+	maximag=loops[i][j].imag();
+    }
+    ps.setscale(minreal,-maximag,maxreal,maximag);
+    cout<<"Iter "<<i<<" Bounds "<<minreal<<' '<<maxreal<<' '<<maximag<<endl;
+    for (j=0;j<loops[i].size();j++)
+    {
+      ps.dot(loops[i][j]);
+    }
+    ps.endpage();
   }
-  ps.endpage();
   cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
   cout<<pvAgm(pvAgm(2,5),pvAgm(3,7))<<' ';
   cout<<pvAgm(pvAgm(2,7),pvAgm(5,3))<<endl;
