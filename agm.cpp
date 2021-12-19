@@ -103,9 +103,15 @@ array<complex<double>,2> invAgm1(complex<double> a,complex<double> g)
  */
 {
   complex<double> diffsq=a*a-g*g;
+  complex<double> rt=sqrt(diffsq);
   array<complex<double>,2> ret;
-  ret[0]=a+sqrt(diffsq);
-  ret[1]=a-sqrt(diffsq);
+  if (abs(a-rt)>abs(a+rt))
+    rt=-rt;
+  ret[0]=a+rt;
+  if (abs(a+rt)>2*abs(a-rt))
+    ret[1]=g*g/ret[0];
+  else
+    ret[1]=a-rt;
   return ret;
 }
 
