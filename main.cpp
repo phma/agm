@@ -21,7 +21,7 @@ const signed char c65[]=
   -65,-63,-60,-56,-52,-39,-33,-25,-16,
   0,16,25,33,39,52,56,60,63
 };
-const bool inverted=true;
+const bool inverted=false;
 
 vector<complex<double> > tinyCircle(complex<double> center)
 /* Returns a circle with radius 65 ulps. center must be between 2 and -2,
