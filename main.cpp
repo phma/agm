@@ -21,6 +21,7 @@ const signed char c65[]=
   -65,-63,-60,-56,-52,-39,-33,-25,-16,
   0,16,25,33,39,52,56,60,63
 };
+const bool inverted=true;
 
 vector<complex<double> > tinyCircle(complex<double> center)
 /* Returns a circle with radius 65 ulps. center must be between 2 and -2,
@@ -125,18 +126,30 @@ int main(int argc,char **argv)
     ps.setcolor(0,0,1);
     for (j=0;j<loops[i].size();j++)
     {
-      if (loops[i][j].real()>maxreal)
-	maxreal=loops[i][j].real();
-      if (loops[i][j].real()<minreal)
-	minreal=loops[i][j].real();
-      if (loops[i][j].imag()>maximag)
-	maximag=loops[i][j].imag();
+      if (inverted)
+      {
+	if ((1./loops[i][j]).real()>maxreal)
+	  maxreal=(1./loops[i][j]).real();
+	if ((1./loops[i][j]).real()<minreal)
+	  minreal=(1./loops[i][j]).real();
+	if ((1./loops[i][j]).imag()>maximag)
+	  maximag=(1./loops[i][j]).imag();
+      }
+      else
+      {
+	if (loops[i][j].real()>maxreal)
+	  maxreal=loops[i][j].real();
+	if (loops[i][j].real()<minreal)
+	  minreal=loops[i][j].real();
+	if (loops[i][j].imag()>maximag)
+	  maximag=loops[i][j].imag();
+      }
     }
     ps.setscale(minreal,-maximag,maxreal,maximag);
     cout<<"Iter "<<i<<" Bounds "<<minreal<<' '<<maxreal<<' '<<maximag<<endl;
     for (j=0;j<loops[i].size();j++)
     {
-      ps.dot(loops[i][j]);
+      ps.dot(inverted?1./loops[i][j]:loops[i][j]);
     }
     ps.endpage();
   }
