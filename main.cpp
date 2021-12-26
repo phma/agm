@@ -182,7 +182,7 @@ int main(int argc,char **argv)
   }
   ps.endpage();
   loops.resize(12);
-  for (i=0;i<12;i++)
+  for (i=0;i<11;i++) //12
   {
     if (!i)
       loops[i]=tinyCircle(1);
