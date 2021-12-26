@@ -55,12 +55,37 @@ void printag(AgmResult ag)
   cout<<endl;
 }
 
+vector<double> vecLog(vector<complex<double> > loop)
+{
+  vector<double> ret;
+  int i;
+  for (i=0;i<loop.size();i++)
+    ret.push_back(log(abs(loop[i])));
+  return ret;
+}
+
+vector<double> vecArg(vector<complex<double> > loop)
+{
+  vector<double> ret;
+  double a,lasta=0;
+  int i;
+  for (i=0;i<loop.size();i++)
+  {
+    a=arg(loop[i]);
+    a+=2*M_PI*rint((lasta-a)/2/M_PI);
+    ret.push_back(a);
+    lasta=a;
+  }
+  return ret;
+}
+
 int main(int argc,char **argv)
 {
   AgmResult ag;
   PostScript ps;
   vector<complex<double> > lattice;
   vector<vector<complex<double> > > loops;
+  vector<double> logloop,argloop;
   int i,j;
   double minreal=1,maxreal=1,maximag=0,diam[3];
   ps.open("agm.ps");
@@ -146,6 +171,8 @@ int main(int argc,char **argv)
 	  maximag=loops[i][j].imag();
       }
     }
+    logloop=vecLog(loops[i]);
+    argloop=vecArg(loops[i]);
     ps.setscale(minreal,-maximag,maxreal,maximag);
     cout<<"Iter "<<i<<" Bounds "<<minreal<<' '<<maxreal<<' '<<maximag<<endl;
     for (j=0;j<loops[i].size();j++)
