@@ -88,6 +88,7 @@ int xt(int n)
 void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
 {
   int i,sz=argloop.size();
+  vector<int> mismatch;
   double minlog=0,maxlog=0,minarg=0,maxarg=0,maxx;
   assert(logloop.size()==argloop.size());
   for (i=0;i<sz;i++)
@@ -100,7 +101,10 @@ void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
       minlog=logloop[i];
     if (argloop[i]<minarg)
       minarg=argloop[i];
+    if (i && (logloop[i]!=logloop[sz-i] || argloop[i]+argloop[sz-i]!=0))
+      mismatch.push_back(i);
   }
+  cout<<mismatch.size()<<" mismatches\n";
   maxx=xt(sz);
   ps.startpage();
   ps.setscale(0,-1,3,1,0);
