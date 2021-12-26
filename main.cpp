@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <cassert>
 #include <cfloat>
 #include "agm.h"
 #include "angle.h"
@@ -77,6 +78,45 @@ vector<double> vecArg(vector<complex<double> > loop)
     lasta=a;
   }
   return ret;
+}
+
+int xt(int n)
+{
+  return a65[9]*(n/9)+a65[n%9];
+}
+
+void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
+{
+  int i,sz=argloop.size();
+  double minlog=0,maxlog=0,minarg=0,maxarg=0,maxx;
+  assert(logloop.size()==argloop.size());
+  for (i=0;i<sz;i++)
+  {
+    if (logloop[i]>maxlog)
+      maxlog=logloop[i];
+    if (argloop[i]>maxarg)
+      maxarg=argloop[i];
+    if (logloop[i]<minlog)
+      minlog=logloop[i];
+    if (argloop[i]<minarg)
+      minarg=argloop[i];
+  }
+  maxx=xt(sz);
+  ps.startpage();
+  ps.setscale(0,-1,3,1,0);
+  ps.setcolor(0,0,1);
+  ps.startline();
+  for (i=0;i<sz;i++)
+    ps.lineto(complex<double>(xt(i)/maxx*3,(logloop[i]-minlog)/(maxlog-minlog)));
+  ps.lineto(complex<double>(3,(logloop[0]-minlog)/(maxlog-minlog)));
+  ps.endline();
+  ps.setcolor(1,0,0);
+  ps.startline();
+  for (i=0;i<sz;i++)
+    ps.lineto(complex<double>(xt(i)/maxx*3,(argloop[i]-maxarg)/(maxarg-minarg)));
+  ps.lineto(complex<double>(3,(argloop[0]-maxarg)/(maxarg-minarg)));
+  ps.endline();
+  ps.endpage();
 }
 
 int main(int argc,char **argv)
@@ -180,6 +220,7 @@ int main(int argc,char **argv)
       ps.dot(inverted?1./loops[i][j]:loops[i][j]);
     }
     ps.endpage();
+    plotLogArg(ps,logloop,argloop);
   }
   for (i=0;i<3;i++)
   {
