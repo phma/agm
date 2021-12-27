@@ -88,7 +88,7 @@ int xt(int n)
 void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
 {
   int i,sz=argloop.size();
-  vector<int> mismatch;
+  vector<int> mismatch,mismatchse;
   double minlog=0,maxlog=0,minarg=0,maxarg=0,maxx;
   assert(logloop.size()==argloop.size());
   for (i=0;i<sz;i++)
@@ -105,9 +105,31 @@ void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
       mismatch.push_back(i);
   }
   cout<<mismatch.size()<<" mismatches\n";
+  for (i=0;i<mismatch.size();i++)
+  {
+    if (i==0)
+      mismatchse.push_back(mismatch[i]);
+    else if (mismatch[i]>mismatch[i-1]+1)
+    {
+      mismatchse.push_back(mismatch[i-1]+1);
+      mismatchse.push_back(mismatch[i]);
+    }
+  }
+  if (i)
+    mismatchse.push_back(mismatch[i-1]+1);
   maxx=xt(sz);
   ps.startpage();
   ps.setscale(0,-1,3,1,0);
+  ps.setcolor(1,1,0);
+  for (i=0;i<mismatchse.size();i+=2)
+  {
+    ps.startline();
+    ps.lineto(complex<double>((xt(mismatchse[i])-2)/maxx,-1));
+    ps.lineto(complex<double>((xt(mismatchse[i+1])+2)/maxx,-1));
+    ps.lineto(complex<double>((xt(mismatchse[i+1])+2)/maxx,1));
+    ps.lineto(complex<double>((xt(mismatchse[i])-2)/maxx,1));
+    ps.endline(true);
+  }
   ps.setcolor(0,0,1);
   ps.startline();
   for (i=0;i<sz;i++)
