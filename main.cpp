@@ -124,10 +124,10 @@ void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
   for (i=0;i<mismatchse.size();i+=2)
   {
     ps.startline();
-    ps.lineto(complex<double>((xt(mismatchse[i])-2)/maxx,-1));
-    ps.lineto(complex<double>((xt(mismatchse[i+1])+2)/maxx,-1));
-    ps.lineto(complex<double>((xt(mismatchse[i+1])+2)/maxx,1));
-    ps.lineto(complex<double>((xt(mismatchse[i])-2)/maxx,1));
+    ps.lineto(complex<double>((xt(mismatchse[i])-2)/maxx*3,-1));
+    ps.lineto(complex<double>((xt(mismatchse[i+1])+2)/maxx*3,-1));
+    ps.lineto(complex<double>((xt(mismatchse[i+1])+2)/maxx*3,1));
+    ps.lineto(complex<double>((xt(mismatchse[i])-2)/maxx*3,1));
     ps.endline(true);
   }
   ps.setcolor(0,0,1);
