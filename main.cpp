@@ -85,6 +85,17 @@ int xt(int n)
   return a65[9]*(n/9)+a65[n%9];
 }
 
+void outMaxMag(vector<complex<double> > &loop)
+/* Outputs all local maxima of the absolute value of the loop.
+ * loop[0] is the global maximum.
+ */
+{
+  int i,sz=loop.size();
+  for (i=0;i<sz-1;i++)
+    if (i==0 || (abs(loop[i])>abs(loop[i-1]) && abs(loop[i])>abs(loop[i+1])))
+      cout<<xt(i)*1./xt(sz)<<' '<<loop[i]/loop[0]*2.<<endl;
+}
+
 void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
 {
   int i,sz=argloop.size();
@@ -247,6 +258,7 @@ int main(int argc,char **argv)
     }
     ps.endpage();
     plotLogArg(ps,logloop,argloop);
+    outMaxMag(loops[i]);
   }
   for (i=0;i<3;i++)
   {
