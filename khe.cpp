@@ -18,3 +18,81 @@
  * precision, assuming 8-byte floats. It then applies the functional equations,
  * doubling the number of points each time.
  */
+
+#include <iostream>
+#include <cfloat>
+#include "khe.h"
+#include "pairwisesum.h"
+using namespace std;
+
+const signed char c65[]=
+{
+  65,63,60,56,52,39,33,25,16,
+  0,-16,-25,-33,-39,-52,-56,-60,-63,
+  -65,-63,-60,-56,-52,-39,-33,-25,-16,
+  0,16,25,33,39,52,56,60,63
+};
+
+const char a65[]={0,7,11,15,18,26,29,33,37,44};
+
+vector<complex<double> > tinyCircle(complex<double> center)
+/* Returns a circle with radius 65 ulps. center must be between 2 and -2,
+ * exclusive, or the result will be inaccurate.
+ */
+{
+  vector<complex<double> > ret;
+  int i;
+  for (i=0;i<36;i++)
+    ret.push_back(center+complex<double>(c65[i],c65[(i+27)%36])*DBL_EPSILON);
+  return ret;
+}
+
+double avgRadius(vector<complex<double> > loop)
+{
+  int i,sz=loop.size();
+  vector<double> diams;
+  diams.resize(sz/2);
+  for (i=0;i<sz/2;i++)
+    diams[i]=abs(loop[i]-loop[i+sz/2]);
+  return pairwisesum(diams)/sz;
+}
+
+vector<double> vecLog(vector<complex<double> > loop)
+{
+  vector<double> ret;
+  int i;
+  for (i=0;i<loop.size();i++)
+    ret.push_back(log(abs(loop[i])));
+  return ret;
+}
+
+vector<double> vecArg(vector<complex<double> > loop)
+{
+  vector<double> ret;
+  double a,lasta=0;
+  int i;
+  for (i=0;i<loop.size();i++)
+  {
+    a=arg(loop[i]);
+    a+=2*M_PI*rint((lasta-a)/2/M_PI);
+    ret.push_back(a);
+    lasta=a;
+  }
+  return ret;
+}
+
+int xt(int n)
+{
+  return a65[9]*(n/9)+a65[n%9];
+}
+
+void outMaxMag(vector<complex<double> > &loop)
+/* Outputs all local maxima of the absolute value of the loop.
+ * loop[0] is the global maximum.
+ */
+{
+  int i,sz=loop.size();
+  for (i=0;i<sz-1;i++)
+    if (i==0 || (abs(loop[i])>abs(loop[i-1]) && abs(loop[i])>abs(loop[i+1])))
+      cout<<xt(i)*1./xt(sz)<<' '<<loop[i]/loop[0]*2.<<endl;
+}
