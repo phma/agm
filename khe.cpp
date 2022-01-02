@@ -21,6 +21,8 @@
 
 #include <iostream>
 #include <cfloat>
+#include <cassert>
+#include "agm.h"
 #include "khe.h"
 #include "pairwisesum.h"
 using namespace std;
@@ -44,6 +46,26 @@ vector<complex<double> > tinyCircle(complex<double> center)
   int i;
   for (i=0;i<36;i++)
     ret.push_back(center+complex<double>(c65[i],c65[(i+27)%36])*DBL_EPSILON);
+  return ret;
+}
+
+vector<complex<double> > agmExpand(vector<complex<double> > loop)
+{
+  vector<complex<double> > ret;
+  int i,sz=loop.size();
+  array<complex<double>,2> agpair;
+  assert(sz%2==0);
+  ret.resize(sz*2);
+  for (i=0;i<sz;i++)
+  {
+    agpair=invAgm1(loop[i],loop[(i+sz/2)%sz]);
+    if (i && abs(agpair[1]-ret[i-1])==abs(agpair[0]-ret[i-1]))
+      cout<<"=\n";
+    if (i && abs(agpair[1]-ret[i-1])<abs(agpair[0]-ret[i-1]))
+      swap(agpair[0],agpair[1]);
+    ret[i]=agpair[0];
+    ret[i+sz]=agpair[1];
+  }
   return ret;
 }
 

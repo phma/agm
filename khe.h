@@ -13,6 +13,7 @@
 #include <array>
 
 std::vector<std::complex<double> > tinyCircle(std::complex<double> center);
+std::vector<std::complex<double> > agmExpand(std::vector<std::complex<double> > loop);
 std::vector<double> vecLog(std::vector<std::complex<double> > loop);
 std::vector<double> vecArg(std::vector<std::complex<double> > loop);
 double avgRadius(std::vector<std::complex<double> > loop);
