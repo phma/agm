@@ -3,6 +3,10 @@
 /* angle.cpp - angles as binary fractions of rotation */
 /*                                                    */
 /******************************************************/
+/* Copyright 2012,2014-2021 Pierre Abbat
+ * Licensed under the Apache License, Version 2.0.
+ * This file is part of AGM.
+ */
 
 #include "angle.h"
 using namespace std;

@@ -3,6 +3,10 @@
 /* angle.h - angles as binary fractions of rotation   */
 /*                                                    */
 /******************************************************/
+/* Copyright 2012,2014-2021 Pierre Abbat
+ * Licensed under the Apache License, Version 2.0.
+ * This file is part of AGM.
+ */
 
 // Angles are represented as integers, with 2147483648 representing 360°.
 // This file overloads the functions sin and cos.

@@ -3,6 +3,10 @@
 /* agm.cpp - compute arithmetic-geometric mean        */
 /*                                                    */
 /******************************************************/
+/* Copyright 2021,2022 Pierre Abbat
+ * Licensed under the Apache License, Version 2.0.
+ * This file is part of AGM.
+ */
 
 #include <cassert>
 #include <iostream>

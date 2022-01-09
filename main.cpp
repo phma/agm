@@ -3,6 +3,10 @@
 /* main.cpp - main program                            */
 /*                                                    */
 /******************************************************/
+/* Copyright 2021,2022 Pierre Abbat
+ * Licensed under the Apache License, Version 2.0.
+ * This file is part of AGM.
+ */
 #include <iostream>
 #include <fstream>
 #include <iomanip>

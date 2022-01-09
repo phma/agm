@@ -4,6 +4,8 @@
 /*                                                    */
 /******************************************************/
 /* Copyright 2015,2016,2019,2021 Pierre Abbat.
+ * Licensed under the Apache License, Version 2.0.
+ * This file is part of AGM.
  */
 #include <cfloat>
 #include <cstring>

@@ -3,6 +3,10 @@
 /* ps.cpp - PostScript output                         */
 /*                                                    */
 /******************************************************/
+/* Copyright 2012-2019,2021,2022 Pierre Abbat
+ * Licensed under the Apache License, Version 2.0.
+ * This file is part of AGM.
+ */
 #include <cstdio>
 #include <fstream>
 #include <cmath>

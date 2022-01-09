@@ -4,6 +4,7 @@
 /*                                                    */
 /******************************************************/
 /* Copyright 2015,2017,2019,2020 Pierre Abbat.
+ * Licensed under the Apache License, Version 2.0.
  * This file is part of AGM.
  */
 

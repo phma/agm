@@ -3,6 +3,10 @@
 /* ps.h - PostScript output                           */
 /*                                                    */
 /******************************************************/
+/* Copyright 2012-2018,2021 Pierre Abbat
+ * Licensed under the Apache License, Version 2.0.
+ * This file is part of AGM.
+ */
 #ifndef PS_H
 #define PS_H
 #include <string>

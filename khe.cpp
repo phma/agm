@@ -3,6 +3,10 @@
 /* khe.cpp - compute khe function                     */
 /*                                                    */
 /******************************************************/
+/* Copyright 2021,2022 Pierre Abbat
+ * Licensed under the Apache License, Version 2.0.
+ * This file is part of AGM.
+ */
 
 /* The khe function խ(z) is defined on the left half-plane as follows:
  * խ(z) is asymptotic to 4*exp(z)+1 as Re(z)-> -∞.
