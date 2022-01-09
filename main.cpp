@@ -191,6 +191,21 @@ int main(int argc,char **argv)
     plotLogArg(ps,logloop,argloop);
     outMaxMag(loops[i]);
   }
+  ps.startpage();
+  ps.setscale(-2/3.,-1,2,1,0);
+  ps.setcolor(0,0,1);
+  for (i=1;i<64;i++)
+    if (i&1)
+      if (i&2)
+	ps.circle(-1./i,1./i);
+      else
+	ps.circle(1./i,1./i);
+    else
+    {
+      ps.circle(complex<double>(0.,1./i),1./i);
+      ps.circle(complex<double>(0.,-1./i),1./i);
+    }
+  ps.endpage();
   for (i=0;i<3;i++)
   {
     diam[i]=avgRadius(loops[i]);
