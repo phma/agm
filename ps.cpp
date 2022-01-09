@@ -116,6 +116,7 @@ void PostScript::prolog()
     *psfile<<"/c { curveto } def\n";
     *psfile<<"/s { stroke } def\n";
     *psfile<<"/af { arc fill } def\n";
+    *psfile<<"/as { arc stroke } def\n";
     *psfile<<"%%EndProlog"<<endl;
     indocument=true;
     pages=0;
@@ -257,7 +258,7 @@ void PostScript::circle(complex<double> pnt,double radius)
   pnt=turn(pnt,orientation);
   if (isfinite(pnt.real()) && isfinite(pnt.imag()))
     *psfile<<ldecimal(xscale(pnt.real()),PAPERRES)<<' '<<ldecimal(yscale(pnt.imag()),PAPERRES)
-    <<" n "<<ldecimal(scale*radius,PAPERRES)<<" 0 360 af %"
+    <<" n "<<ldecimal(scale*radius,PAPERRES)<<" 0 360 as %"
     <<ldecimal(radius*radius,radius*radius/1000)<<endl;
 }
 
