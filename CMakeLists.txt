@@ -24,7 +24,7 @@ set(AGM_MAJOR_VERSION 0)
 set(AGM_MINOR_VERSION 1)
 set(AGM_PATCH_VERSION 0)
 set(AGM_VERSION ${AGM_MAJOR_VERSION}.${AGM_MINOR_VERSION}.${AGM_PATCH_VERSION})
-set(COPY_YEAR 2021)
+set(COPY_YEAR 2022)
 
 include_directories(${PROJECT_BINARY_DIR})
 configure_file(config.h.in config.h)
