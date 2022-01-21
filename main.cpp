@@ -104,7 +104,8 @@ void outMismatch(const vector<complex<double> > &prevLoop,const vector<complex<d
   int i;
   ofstream file("mismatch.html");
   file<<"<html><head><title>Mismatches</title></head>\n";
-  file<<"<body><table border>\n";
+  file<<"<body>Max "<<complexStr(thisLoop[0]);
+  file<<"\n<table border>\n";
   assert(thisLoop.size()==18432);
   for (i=2200;i<2359;i++)
   {
