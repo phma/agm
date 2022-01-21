@@ -53,6 +53,15 @@ vector<complex<double> > tinyCircle(complex<double> center)
   return ret;
 }
 
+double circleCenter(double x)
+/* Returns the center to pass to tinyCircle to compute խ(x+iy).
+ * The result should be at most 2-65ulp, and if called with 2x, the result
+ * should be greater than 2-65ulp.
+ */
+{
+  return exp(x)/65*4/DBL_EPSILON;
+}
+
 vector<complex<double> > agmExpand(vector<complex<double> > loop)
 {
   vector<complex<double> > ret;

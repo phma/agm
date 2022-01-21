@@ -16,6 +16,7 @@
 #include <vector>
 #include <array>
 
+double circleCenter(double x);
 std::vector<std::complex<double> > tinyCircle(std::complex<double> center);
 std::vector<std::complex<double> > agmExpand(std::vector<std::complex<double> > loop);
 std::vector<double> vecLog(std::vector<std::complex<double> > loop);

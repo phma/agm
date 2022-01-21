@@ -137,6 +137,7 @@ int main(int argc,char **argv)
   vector<double> logloop,argloop;
   int i,j;
   double minreal=1,maxreal=1,maximag=0,diam[3];
+  double x65;
   ps.open("agm.ps");
   ps.setpaper(papersizes["A4 landscape"],0);
   ps.prolog();
@@ -254,7 +255,9 @@ int main(int argc,char **argv)
   }
   outMismatch(loops[8],loops[9]);
   cout<<ldecimal(log(diam[0]/diam[1])/log(diam[1]/diam[2]))<<" should be 2\n";
-  cout<<"y for 65-ulp loop around 1 is "<<ldecimal(2*(log(diam[1]/diam[0])))<<endl;
+  x65=-2*(log(diam[1]/diam[0]));
+  cout<<"x for 65-ulp loop around 1 is "<<ldecimal(x65)<<endl;
+  cout<<"Center for x="<<x65<<" is "<<ldecimal(circleCenter(x65))<<endl;
   cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
   cout<<pvAgm(pvAgm(2,5),pvAgm(3,7))<<' ';
   cout<<pvAgm(pvAgm(2,7),pvAgm(5,3))<<endl;
