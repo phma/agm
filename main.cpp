@@ -91,6 +91,42 @@ void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
   ps.endpage();
 }
 
+string complexStr(complex<double> z)
+{
+  return ldecimal(z.real())+','+ldecimal(z.imag());
+}
+
+void outMismatch(const vector<complex<double> > &prevLoop,const vector<complex<double> > &thisLoop)
+/* The loop size is 18432, which is 36<<9. This is the first loop
+ * with mismatches.
+ */
+{
+  int i;
+  ofstream file("mismatch.html");
+  file<<"<html><head><title>Mismatches</title></head>\n";
+  file<<"<body><table border>\n";
+  assert(thisLoop.size()==18432);
+  for (i=2200;i<2359;i++)
+  {
+    file<<"<tr><th>"<<i<<"</th>";
+    file<<"<td>"<<complexStr(thisLoop[i])<<"</td>";
+    file<<"<td>"<<complexStr(thisLoop[9216-i])<<"</td>";
+    file<<"<td>"<<complexStr(thisLoop[9216+i])<<"</td>";
+    file<<"<td>"<<complexStr(thisLoop[18432-i])<<"</td>";
+    if (i%2==0)
+    {
+      file<<"<td>"<<complexStr(prevLoop[i/2]*2.)<<"</td>";
+      file<<"<td>"<<complexStr(prevLoop[4608-i/2]*2.)<<"</td>";
+      file<<"<td>"<<complexStr(prevLoop[4608+i/2]*2.)<<"</td>";
+      file<<"<td>"<<complexStr(prevLoop[9216-i/2]*2.)<<"</td>";
+    }
+    else
+      file<<"<td></td><td></td><td></td><td></td>";
+    file<<"</tr>\n";
+  }
+  file<<"</table></body></html>\n";
+}
+
 int main(int argc,char **argv)
 {
   AgmResult ag;
@@ -215,6 +251,7 @@ int main(int argc,char **argv)
     diam[i]=avgRadius(loops[i]);
     cout<<i<<' '<<ldecimal(diam[i])<<' '<<ldecimal(log(diam[i]))<<endl;
   }
+  outMismatch(loops[8],loops[9]);
   cout<<ldecimal(log(diam[0]/diam[1])/log(diam[1]/diam[2]))<<" should be 2\n";
   cout<<"y for 65-ulp loop around 1 is "<<ldecimal(2*(log(diam[1]/diam[0])))<<endl;
   cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
