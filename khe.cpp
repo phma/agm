@@ -66,7 +66,7 @@ double circleCenter(double x)
  * should be greater than 2-65ulp.
  */
 {
-  return exp(x)/65*4/DBL_EPSILON;
+  return exp(-x)*65/4*DBL_EPSILON;
 }
 
 vector<complex<double> > agmExpand(vector<complex<double> > loop)

@@ -255,6 +255,7 @@ int main(int argc,char **argv)
   x65=-2*(log(diam[1]/diam[0]));
   cout<<"x for 65-ulp loop around 1 is "<<ldecimal(x65)<<endl;
   cout<<"Center for x="<<x65<<" is "<<ldecimal(circleCenter(x65))<<endl;
+  cout<<"Center for x="<<x65/2<<" is "<<ldecimal(circleCenter(x65/2))<<endl;
   cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
   cout<<pvAgm(pvAgm(2,5),pvAgm(3,7))<<' ';
   cout<<pvAgm(pvAgm(2,7),pvAgm(5,3))<<endl;
