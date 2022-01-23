@@ -41,6 +41,13 @@ const signed char c65[]=
 
 const char a65[]={0,7,11,15,18,26,29,33,37,44};
 
+map<double,vector<vector<complex<double> > > > loopCache;
+/* The key is the circle center used to make the 65-ulp loop, which loops
+ * must be divided by when fetching them from cache. The value is a sequence
+ * of loops, the 0th being the 65-ulp loop with 36 points, and each successive
+ * loop having twice as many points.
+ */
+
 vector<complex<double> > tinyCircle(complex<double> center)
 /* Returns a circle with radius 65 ulps. center must be between 2 and -2,
  * exclusive, or the result will be inaccurate.
@@ -79,6 +86,38 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
       swap(agpair[0],agpair[1]);
     ret[i]=agpair[0];
     ret[i+sz]=agpair[1];
+  }
+  return ret;
+}
+
+vector<complex<double> > getLoop(double x)
+/* Returns the loop with real part equal to x, which must be negative.
+ * If x results in a circle center greater than 2, returns an empty vector;
+ * խ(z) is then within an ulp of 4*exp(z)+1. If x>-1/60., it may return
+ * the numbers in the loop in the wrong order. If x>=0, returns empty.
+ */
+{
+  double center=0,tryCenter=0;
+  vector<complex<double> > ret;
+  int nExpand=-1,i;
+  for (i=0;x<0 && tryCenter<2-65*DBL_EPSILON;i++)
+  {
+    tryCenter=circleCenter(ldexp(x,i));
+    if (tryCenter<2-65*DBL_EPSILON)
+    {
+      nExpand=i;
+      center=tryCenter;
+    }
+  }
+  if (center)
+  {
+    if (!loopCache.count(center))
+      loopCache[center].push_back(tinyCircle(center));
+    while (loopCache[center].size()-1<nExpand)
+      loopCache[center].push_back(agmExpand(loopCache[center].back()));
+    ret=loopCache[center][nExpand];
+    for (i=0;i<ret.size();i++)
+      ret[i]/=center;
   }
   return ret;
 }
