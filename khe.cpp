@@ -72,8 +72,8 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
   for (i=0;i<sz;i++)
   {
     agpair=invAgm1(loop[i],loop[(i+sz/2)%sz]);
-    if (i && abs(agpair[1]-ret[i-1])==abs(agpair[0]-ret[i-1]))
-      cout<<"=\n";
+    //if (i && abs(agpair[1]-ret[i-1])==abs(agpair[0]-ret[i-1]))
+      //cout<<"=\n"; // This starts happening when the loop is expanded 11 times.
     if (i && abs(agpair[1]-ret[i-1])+abs(agpair[0]-ret[i+sz-1])<
 	     abs(agpair[0]-ret[i-1])+abs(agpair[1]-ret[i+sz-1]))
       swap(agpair[0],agpair[1]);
