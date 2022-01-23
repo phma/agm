@@ -97,29 +97,26 @@ string complexStr(complex<double> z)
 }
 
 void outMismatch(const vector<complex<double> > &prevLoop,const vector<complex<double> > &thisLoop)
-/* The loop size is 18432, which is 36<<9. This is the first loop
- * with mismatches.
- */
 {
-  int i;
+  int i,sz=thisLoop.size();
   ofstream file("mismatch.html");
   file<<"<html><head><title>Mismatches</title></head>\n";
   file<<"<body>Max "<<complexStr(thisLoop[0]);
   file<<"\n<table border>\n";
-  assert(thisLoop.size()==18432);
-  for (i=2200;i<2359;i++)
+  assert(sz==73728);
+  for (i=9200;i<9233;i++)
   {
     file<<"<tr><th>"<<i<<"</th>";
     file<<"<td>"<<complexStr(thisLoop[i])<<"</td>";
-    file<<"<td>"<<complexStr(thisLoop[9216-i])<<"</td>";
-    file<<"<td>"<<complexStr(thisLoop[9216+i])<<"</td>";
-    file<<"<td>"<<complexStr(thisLoop[18432-i])<<"</td>";
+    file<<"<td>"<<complexStr(thisLoop[sz/2-i])<<"</td>";
+    file<<"<td>"<<complexStr(thisLoop[sz/2+i])<<"</td>";
+    file<<"<td>"<<complexStr(thisLoop[sz-i])<<"</td>";
     if (i%2==0)
     {
       file<<"<td>"<<complexStr(prevLoop[i/2]*2.)<<"</td>";
-      file<<"<td>"<<complexStr(prevLoop[4608-i/2]*2.)<<"</td>";
-      file<<"<td>"<<complexStr(prevLoop[4608+i/2]*2.)<<"</td>";
-      file<<"<td>"<<complexStr(prevLoop[9216-i/2]*2.)<<"</td>";
+      file<<"<td>"<<complexStr(prevLoop[sz/4-i/2]*2.)<<"</td>";
+      file<<"<td>"<<complexStr(prevLoop[sz/4+i/2]*2.)<<"</td>";
+      file<<"<td>"<<complexStr(prevLoop[sz/2-i/2]*2.)<<"</td>";
     }
     else
       file<<"<td></td><td></td><td></td><td></td>";
@@ -253,7 +250,7 @@ int main(int argc,char **argv)
     diam[i]=avgRadius(loops[i]);
     cout<<i<<' '<<ldecimal(diam[i])<<' '<<ldecimal(log(diam[i]))<<endl;
   }
-  outMismatch(loops[8],loops[9]);
+  outMismatch(loops[10],loops[11]);
   cout<<ldecimal(log(diam[0]/diam[1])/log(diam[1]/diam[2]))<<" should be 2\n";
   x65=-2*(log(diam[1]/diam[0]));
   cout<<"x for 65-ulp loop around 1 is "<<ldecimal(x65)<<endl;
