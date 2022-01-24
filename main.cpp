@@ -135,6 +135,7 @@ int main(int argc,char **argv)
   int i,j;
   double minreal=1,maxreal=1,maximag=0,diam[3];
   double x65;
+  double hi,lo,mid;
   ps.open("agm.ps");
   ps.setpaper(papersizes["A4 landscape"],0);
   ps.prolog();
@@ -189,13 +190,22 @@ int main(int argc,char **argv)
   }
   ps.endpage();
   loops.resize(12);
+  hi=-12;
+  lo=-24;
+  mid=-16;
+  while (hi>mid && mid>lo)
+  {
+    loops[0]=getLoop(mid);
+    if (loops[0].size()>64)
+      hi=mid;
+    else
+      lo=mid;
+    mid=(hi+lo)/2;
+  }
+  cout<<"Loop size doubles at "<<ldecimal(mid)<<endl;
   for (i=0;i<12;i++)
   {
-    //if (!i)
-      //loops[i]=tinyCircle(1);
-    //else
-      //loops[i]=agmExpand(loops[i-1]);
-    loops[i]=getLoop(-pow(0.5,i/12.));
+    loops[i]=getLoop(-pow(0.5,i/12.-5));
     ps.startpage();
     ps.setcolor(0,0,1);
     for (j=0;j<loops[i].size();j++)
