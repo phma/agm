@@ -191,10 +191,11 @@ int main(int argc,char **argv)
   loops.resize(12);
   for (i=0;i<12;i++)
   {
-    if (!i)
-      loops[i]=tinyCircle(1);
-    else
-      loops[i]=agmExpand(loops[i-1]);
+    //if (!i)
+      //loops[i]=tinyCircle(1);
+    //else
+      //loops[i]=agmExpand(loops[i-1]);
+    loops[i]=getLoop(-pow(0.5,i/12.));
     ps.startpage();
     ps.setcolor(0,0,1);
     for (j=0;j<loops[i].size();j++)
