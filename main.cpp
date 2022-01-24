@@ -205,7 +205,7 @@ int main(int argc,char **argv)
   cout<<"Loop size doubles at "<<ldecimal(mid)<<endl;
   for (i=0;i<12;i++)
   {
-    loops[i]=getLoop(-pow(0.5,i/12.-5));
+    loops[i]=getLoop(-17.03+i*0.01);
     ps.startpage();
     ps.setcolor(0,0,1);
     for (j=0;j<loops[i].size();j++)
@@ -232,7 +232,7 @@ int main(int argc,char **argv)
     logloop=vecLog(loops[i]);
     argloop=vecArg(loops[i]);
     ps.setscale(minreal,-maximag,maxreal,maximag);
-    cout<<"Iter "<<i<<" Bounds "<<minreal<<' '<<maxreal<<' '<<maximag<<endl;
+    cout<<"Iter "<<i<<" Size "<<logloop.size()<<" Bounds "<<minreal<<' '<<maxreal<<' '<<maximag<<endl;
     for (j=0;j<loops[i].size();j++)
     {
       ps.dot(inverted?1./loops[i][j]:loops[i][j]);
