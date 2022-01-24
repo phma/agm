@@ -250,7 +250,6 @@ int main(int argc,char **argv)
     diam[i]=avgRadius(loops[i]);
     cout<<i<<' '<<ldecimal(diam[i])<<' '<<ldecimal(log(diam[i]))<<endl;
   }
-  outMismatch(loops[10],loops[11]);
   cout<<ldecimal(log(diam[0]/diam[1])/log(diam[1]/diam[2]))<<" should be 2\n";
   x65=-2*(log(diam[1]/diam[0]));
   cout<<"x for 65-ulp loop around 1 is "<<ldecimal(x65)<<endl;
