@@ -205,7 +205,7 @@ int main(int argc,char **argv)
   cout<<"Loop size doubles at "<<ldecimal(mid)<<endl;
   for (i=0;i<12;i++)
   {
-    loops[i]=getLoop(-17.03+i*0.01);
+    loops[i]=getLoop((-17.03+i*0.01)/64);
     ps.startpage();
     ps.setcolor(0,0,1);
     for (j=0;j<loops[i].size();j++)
