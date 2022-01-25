@@ -16,6 +16,12 @@
 #include <vector>
 #include <array>
 
+struct KheInterp
+{
+  std::array<std::complex<double>,12> points;
+  double along;
+};
+
 double circleCenter(double x);
 std::vector<std::complex<double> > tinyCircle(std::complex<double> center);
 std::vector<std::complex<double> > agmExpand(std::vector<std::complex<double> > loop);
