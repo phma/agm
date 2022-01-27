@@ -90,15 +90,12 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
   return ret;
 }
 
-vector<complex<double> > getLoop(double x)
-/* Returns the loop with real part equal to x, which must be negative.
- * If x results in a circle center greater than 2, returns an empty vector;
- * խ(z) is then within an ulp of 4*exp(z)+1. If x>-1/60., it may return
- * the numbers in the loop in the wrong order. If x>=0, returns empty.
- */
+KheCachedLoop _getLoop(double x)
 {
   double center=0,tryCenter=0;
-  vector<complex<double> > ret;
+  KheCachedLoop ret;
+  ret.center=0;
+  ret.loop=nullptr;
   int nExpand=-1,i;
   for (i=0;x<0 && tryCenter<2-65*DBL_EPSILON;i++)
   {
@@ -115,9 +112,28 @@ vector<complex<double> > getLoop(double x)
       loopCache[center].push_back(tinyCircle(center));
     while (loopCache[center].size()-1<nExpand)
       loopCache[center].push_back(agmExpand(loopCache[center].back()));
-    ret=loopCache[center][nExpand];
+    ret.loop=&loopCache[center][nExpand];
+    ret.center=center;
+  }
+  return ret;
+}
+
+vector<complex<double> > getLoop(double x)
+/* Returns the loop with real part equal to x, which must be negative.
+ * If x results in a circle center greater than 2, returns an empty vector;
+ * խ(z) is then within an ulp of 4*exp(z)+1. If x>-1/60., it may return
+ * the numbers in the loop in the wrong order. If x>=0, returns empty.
+ */
+{
+  KheCachedLoop cloop;
+  vector<complex<double> > ret;
+  int nExpand=-1,i;
+  cloop=_getLoop(x);
+  if (cloop.center)
+  {
+    ret=*cloop.loop;
     for (i=0;i<ret.size();i++)
-      ret[i]/=center;
+      ret[i]/=cloop.center;
   }
   return ret;
 }

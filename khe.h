@@ -16,6 +16,12 @@
 #include <vector>
 #include <array>
 
+struct KheCachedLoop
+{
+  double center;
+  std::vector<std::complex<double> > *loop;
+};
+
 struct KheInterp
 {
   std::array<std::complex<double>,12> points;
