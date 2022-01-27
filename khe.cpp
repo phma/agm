@@ -122,6 +122,8 @@ vector<complex<double> > getLoop(double x)
   return ret;
 }
 
+//KheInterp getInterp(complex<double> z)
+
 double avgRadius(vector<complex<double> > loop)
 {
   int i,sz=loop.size();
