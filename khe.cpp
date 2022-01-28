@@ -131,7 +131,7 @@ vector<complex<double> > getLoop(double x)
 {
   KheCachedLoop cloop;
   vector<complex<double> > ret;
-  int nExpand=-1,i;
+  int i;
   cloop=_getLoop(x);
   if (cloop.center)
   {
@@ -142,7 +142,37 @@ vector<complex<double> > getLoop(double x)
   return ret;
 }
 
-//KheInterp getInterp(complex<double> z)
+KheInterp getInterp(complex<double> z)
+/* Returns 12 numbers from the loop, of which points[1] and points[10] come
+ * from the quadrants of the original circle of radius 65 ulps, and the
+ * amount by which z.imag() is along the interval from points[1] to points[10].
+ */
+{
+  KheCachedLoop cloop;
+  KheInterp ret;
+  double y;
+  int pointStart,i,sz;
+  cloop=_getLoop(z.real());
+  if (cloop.center)
+  {
+    y=z.imag()-(2*M_PI)*rint(z.imag()/(2*M_PI));
+    sz=cloop.loop->size();
+    pointStart=lrint(y*(sz/18)/M_PI)*9;
+    ret.along=y*(sz/9)-(pointStart/9)*(M_PI/2);
+    if (ret.along<0)
+    {
+      ret.along+=M_PI/2;
+      pointStart-=9;
+    }
+    if (pointStart<2)
+      pointStart+=sz;
+    for (i=0;i<12;i++)
+      ret.points[i]=(*cloop.loop)[(pointStart+i-2)%sz]/cloop.center;
+  }
+  else
+    ret.along=NAN;
+  return ret;
+}
 
 double avgRadius(vector<complex<double> > loop)
 {
