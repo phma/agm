@@ -39,7 +39,11 @@ const signed char c65[]=
   0,16,25,33,39,52,56,60,63
 };
 
-const char a65[]={0,7,11,15,18,26,29,33,37,44};
+const double a65[]=
+{
+  atan2(0,65),atan2(16,63),atan2(25,60),atan2(33,56),atan2(39,52),
+  atan2(52,39),atan2(56,33),atan2(60,25),atan2(63,16),atan2(65,0)
+};
 
 map<double,vector<vector<complex<double> > > > loopCache;
 /* The key is the circle center used to make the 65-ulp loop, which loops
@@ -174,7 +178,7 @@ vector<double> vecArg(vector<complex<double> > loop)
   return ret;
 }
 
-int xt(int n)
+double xt(int n)
 {
   return a65[9]*(n/9)+a65[n%9];
 }

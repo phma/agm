@@ -36,7 +36,7 @@ std::vector<double> vecArg(std::vector<std::complex<double> > loop);
 std::vector<std::complex<double> > getLoop(double x);
 //KheInterp getInterp(complex<double> z);
 double avgRadius(std::vector<std::complex<double> > loop);
-int xt(int n);
+double xt(int n);
 void outMaxMag(std::vector<std::complex<double> > &loop);
 
 #endif
