@@ -213,6 +213,34 @@ double xt(int n)
   return a65[9]*(n/9)+a65[n%9];
 }
 
+complex<double> khe(complex<double> z)
+/* Uses linear interpolation. TODO use cubic interpolation.
+ * Computes the khe function of z. If z is too close to the imaginary axis,
+ * may give wrong answers.
+ */
+{
+  KheInterp interp=getInterp(z);
+  complex<double> ret;
+  int i,n;
+  double subalong,subinterval;
+  if (z.imag()>=0)
+    ret=complex<double>(NAN,NAN);
+  else if (isnan(interp.along))
+    ret=4.*exp(z)+1.;
+  else
+  {
+    for (i=0;i<9;i++)
+      if (a65[i]<=interp.along)
+      {
+	n=i;
+	subalong=interp.along-a65[i];
+	subinterval=a65[i+1]-a65[i];
+      }
+    ret=interp.points[i+1]+(interp.points[i+2]-interp.points[i+1])*subalong/subinterval;
+  }
+  return ret;
+}
+
 void outMaxMag(vector<complex<double> > &loop)
 /* Outputs all local maxima of the absolute value of the loop.
  * loop[0] is the global maximum.

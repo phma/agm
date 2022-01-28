@@ -203,6 +203,14 @@ int main(int argc,char **argv)
     mid=(hi+lo)/2;
   }
   cout<<"Loop size doubles at "<<ldecimal(mid)<<endl;
+  ps.startpage();
+  ps.setcolor(0,0,1);
+  ps.setscale(1-1e-8,1-1e-8,1+1e-8,1+1e-8);
+  ps.startline();
+  for (i=0;i<114;i++)
+    ps.lineto(khe(complex<double>(-17,i*2)));
+  ps.endline();
+  ps.endpage();
   for (i=0;i<12;i++)
   {
     loops[i]=getLoop((-17.03+i*0.01)/64);
