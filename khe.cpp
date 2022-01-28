@@ -236,7 +236,7 @@ complex<double> khe(complex<double> z)
 	subalong=interp.along-a65[i];
 	subinterval=a65[i+1]-a65[i];
       }
-    ret=interp.points[i+1]+(interp.points[i+2]-interp.points[i+1])*subalong/subinterval;
+    ret=interp.points[n+1]+(interp.points[n+2]-interp.points[n+1])*subalong/subinterval;
   }
   return ret;
 }
