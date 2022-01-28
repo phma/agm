@@ -205,7 +205,7 @@ int main(int argc,char **argv)
   cout<<"Loop size doubles at "<<ldecimal(mid)<<endl;
   ps.startpage();
   ps.setcolor(0,0,1);
-  ps.setscale(1-1e-8,1-1e-8,1+1e-8,1+1e-8);
+  ps.setscale(1-1e-6,-1e-6,1+1e-6,1e-6);
   ps.startline();
   for (i=0;i<114;i++)
     ps.lineto(khe(complex<double>(-17,i*2)));
