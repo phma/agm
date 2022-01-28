@@ -158,7 +158,7 @@ KheInterp getInterp(complex<double> z)
     y=z.imag()-(2*M_PI)*rint(z.imag()/(2*M_PI));
     sz=cloop.loop->size();
     pointStart=lrint(y*(sz/18)/M_PI)*9;
-    ret.along=y*(sz/9)-(pointStart/9)*(M_PI/2);
+    ret.along=y*(sz/36)-(pointStart/9)*(M_PI/2);
     if (ret.along<0)
     {
       ret.along+=M_PI/2;
