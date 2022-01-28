@@ -167,7 +167,7 @@ KheInterp getInterp(complex<double> z)
     if (pointStart<2)
       pointStart+=sz;
     for (i=0;i<12;i++)
-      ret.points[i]=(*cloop.loop)[(pointStart+i-2)%sz]/cloop.center;
+      ret.points[i]=(*cloop.loop)[(pointStart+i-1)%sz]/cloop.center;
   }
   else
     ret.along=NAN;
