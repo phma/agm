@@ -223,7 +223,7 @@ complex<double> khe(complex<double> z)
   complex<double> ret;
   int i,n;
   double subalong,subinterval;
-  if (z.imag()>=0)
+  if (z.real()>=0)
     ret=complex<double>(NAN,NAN);
   else if (isnan(interp.along))
     ret=4.*exp(z)+1.;
