@@ -295,6 +295,7 @@ int main(int argc,char **argv)
       ps.circle(complex<double>(0.,-1./i),1./i);
     }
   ps.endpage();
+  plotSquare(ps,khe,complex<double>(-16,0.),0.00002);
   plotSquare(ps,khe,complex<double>(-16.974354,0.),0.000001);
   for (i=0;i<3;i++)
   {
