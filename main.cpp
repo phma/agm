@@ -296,6 +296,9 @@ int main(int argc,char **argv)
     }
   ps.endpage();
   plotSquare(ps,khe,complex<double>(-16,0.),0.00002);
+  plotSquare(ps,khe,complex<double>(-16,0.),0.002);
+  plotSquare(ps,khe,complex<double>(-16.974354,0.),0.002);
+  plotSquare(ps,khe,complex<double>(-16.974354,0.1),0.002);
   plotSquare(ps,khe,complex<double>(-16.974354,0.),0.000001);
   for (i=0;i<3;i++)
   {
