@@ -107,7 +107,7 @@ array<complex<double>,2> invAgm1(complex<double> a,complex<double> g)
  * You are responsible for swapping them if necessary.
  */
 {
-  complex<double> diffsq=a*a-g*g;
+  complex<double> diffsq=(a+g)*(a-g); // a*a-g*g is imprecise if a is close to g
   complex<double> rt=sqrt(diffsq);
   array<complex<double>,2> ret;
   if (abs(a-rt)>abs(a+rt))
