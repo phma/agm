@@ -125,6 +125,37 @@ void outMismatch(const vector<complex<double> > &prevLoop,const vector<complex<d
   file<<"</table></body></html>\n";
 }
 
+void plotSquare(PostScript &ps,complex<double> f(complex<double> z),complex<double> cen,complex<double> h)
+{
+  complex<double> fcen;
+  vector<complex<double> > values;
+  int i,j;
+  double max=0,rad,r,g,b;
+  const int sz=3;
+  for (i=-sz;i<=sz;i++)
+    for (j=-sz;j<=sz;j++)
+      values.push_back(f(cen+complex<double>(i,j)*h));
+  fcen=values[values.size()/2];
+  for (i=0;i<values.size();i++)
+  {
+    values[i]-=fcen;
+    if (abs(values[i])>max)
+      max=abs(values[i]);
+  }
+  ps.startpage();
+  ps.setscale(-max,-max,max,max,0);
+  rad=max/sz/10;
+  for (i=0;i<values.size();i++)
+  {
+    r=((i/(2*sz+1))+0.5)/(2*sz+1);
+    b=((i%(2*sz+1))+0.5)/(2*sz+1);
+    g=(2-r-b)/2;
+    ps.setcolor(r,g,b);
+    ps.circle(values[i],rad);
+  }
+  ps.endpage();
+}
+
 int main(int argc,char **argv)
 {
   AgmResult ag;
@@ -264,6 +295,7 @@ int main(int argc,char **argv)
       ps.circle(complex<double>(0.,-1./i),1./i);
     }
   ps.endpage();
+  plotSquare(ps,khe,complex<double>(-16.974354,0.),0.000001);
   for (i=0;i<3;i++)
   {
     diam[i]=avgRadius(loops[i]);
