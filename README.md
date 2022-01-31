@@ -11,7 +11,7 @@ To compile, if you're not developing the program:
 
 If you are developing the program:
 
-1. Create a directory build/quadlods outside the directory where you cloned the source code.
-2. `cd build/quadlods`
+1. Create a directory build/agm outside the directory where you cloned the source code.
+2. `cd build/agm`
 3. `cmake <directory where the source code is>`
 4. `make`
