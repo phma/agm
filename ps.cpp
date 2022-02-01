@@ -256,13 +256,13 @@ void PostScript::dot(complex<double> pnt,string comment)
   }
 }
 
-void PostScript::circle(complex<double> pnt,double radius)
+void PostScript::circle(complex<double> pnt,double radius,bool fill)
 {
   assert(psfile);
   pnt=turn(pnt,orientation);
   if (isfinite(pnt.real()) && isfinite(pnt.imag()))
     *psfile<<ldecimal(xscale(pnt.real()),PAPERRES)<<' '<<ldecimal(yscale(pnt.imag()),PAPERRES)
-    <<" n "<<ldecimal(scale*radius,PAPERRES)<<" 0 360 as %"
+    <<" n "<<ldecimal(scale*radius,PAPERRES)<<" 0 360 "<<(fill?"af":"as")<<" %"
     <<ldecimal(radius*radius,radius*radius/1000)<<endl;
 }
 

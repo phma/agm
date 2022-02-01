@@ -3,7 +3,7 @@
 /* ps.h - PostScript output                           */
 /*                                                    */
 /******************************************************/
-/* Copyright 2012-2018,2021 Pierre Abbat
+/* Copyright 2012-2018,2021,2022 Pierre Abbat
  * Licensed under the Apache License, Version 2.0.
  * This file is part of AGM.
  */
@@ -50,7 +50,7 @@ public:
   void setscale(double minx,double miny,double maxx,double maxy,int ori=0);
   double getscale();
   void dot(std::complex<double> pnt,std::string comment="");
-  void circle(std::complex<double> pnt,double radius);
+  void circle(std::complex<double> pnt,double radius,bool fill=false);
   void line2p(std::complex<double> pnt1,std::complex<double> pnt2);
   void startline();
   void lineto(std::complex<double> pnt);

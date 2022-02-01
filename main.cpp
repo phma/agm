@@ -151,7 +151,7 @@ void plotSquare(PostScript &ps,complex<double> f(complex<double> z),complex<doub
     b=((i%(2*sz+1))+0.5)/(2*sz+1);
     g=(2-r-b)/2;
     ps.setcolor(r,g,b);
-    ps.circle(values[i],rad);
+    ps.circle(values[i],rad,true);
   }
   ps.endpage();
 }
