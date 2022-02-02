@@ -167,6 +167,7 @@ int main(int argc,char **argv)
   double minreal=1,maxreal=1,maximag=0,diam[3];
   double x65;
   double hi,lo,mid;
+  complex<double> pnt0,pnt1,avg;
   ps.open("agm.ps");
   ps.setpaper(papersizes["A4 landscape"],0);
   ps.prolog();
@@ -241,6 +242,36 @@ int main(int argc,char **argv)
   for (i=0;i<356;i++)
     ps.lineto(khe(complex<double>(-17,i*2)));
   ps.endline();
+  ps.endpage();
+  /* Draw just before and just after the loop doubles in size, with the distance
+   * between them exaggerated. Most of the difference is from interpolating
+   * between points that are closer together. The difference between the loop
+   * just before, which is 36 points of an exact circle, and the loop just after,
+   * in which [0] and [180] have slightly greater real part and [90] and [270]
+   * slightly less, is negligible.
+   */
+  ps.startpage();
+  ps.setscale(1-2e-7,-2e-7,1+2e-7,2e-7);
+  loops[0].clear();
+  loops[1].clear();
+  for (i=0;i<360;i++)
+  {
+    pnt0=khe(complex<double>(mid-1e-8,degtorad(i)));
+    pnt1=khe(complex<double>(mid+1e-8,degtorad(i)));
+    avg=(pnt0+pnt1)/2.;
+    loops[0].push_back(avg+2e2*(pnt0-avg));
+    loops[1].push_back(avg+2e2*(pnt1-avg));
+  }
+  ps.setcolor(0,0,1);
+  ps.startline();
+  for (i=0;i<360;i++)
+    ps.lineto(loops[0][i]);
+  ps.endline(true);
+  ps.setcolor(1,0,0);
+  ps.startline();
+  for (i=0;i<360;i++)
+    ps.lineto(loops[1][i]);
+  ps.endline(true);
   ps.endpage();
   for (i=0;i<12;i++)
   {
