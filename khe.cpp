@@ -223,7 +223,7 @@ complex<double> khe(complex<double> z)
   complex<double> ret;
   int i,n;
   double subalong,interval[3],p,q;
-  complex<double> off,pnt[4];
+  complex<double> off,pnt[4],ctrl[2],slp[2];
   if (z.real()>=0)
     ret=complex<double>(NAN,NAN);
   else if (isnan(interp.along))
@@ -252,10 +252,18 @@ complex<double> khe(complex<double> z)
       interval[2]=a65[1];
     else
       interval[2]=a65[n+2]-a65[n+1];
+    slp[0]=((pnt[2]-pnt[1])*interval[0]+
+	    (pnt[1]-pnt[0])/interval[0]*interval[1]*interval[1])/
+	    (interval[0]+interval[1]);
+    slp[1]=((pnt[2]-pnt[1])*interval[2]+
+	    (pnt[3]-pnt[2])/interval[2]*interval[1]*interval[1])/
+	    (interval[1]+interval[2]);
+    ctrl[0]=pnt[1]+slp[0]/3.;
+    ctrl[1]=pnt[2]-slp[1]/3.;
     p=subalong/interval[1];
     q=1-p;
     p=1-q;
-    ret=(pnt[1]*q+pnt[2]*p)+off;
+    ret=(pnt[1]*q*q*q+3.*ctrl[0]*p*q*q+3.*ctrl[1]*p*p*q+pnt[2]*p*p*p)+off;
   }
   return ret;
 }
