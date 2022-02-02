@@ -222,7 +222,7 @@ complex<double> khe(complex<double> z)
   KheInterp interp=getInterp(z);
   complex<double> ret;
   int i,n;
-  double subalong,interval[3];
+  double subalong,interval[3],p,q;
   complex<double> off,pnt[4];
   if (z.real()>=0)
     ret=complex<double>(NAN,NAN);
@@ -252,7 +252,10 @@ complex<double> khe(complex<double> z)
       interval[2]=a65[1];
     else
       interval[2]=a65[n+2]-a65[n+1];
-    ret=(pnt[1]+(pnt[2]-pnt[1])*subalong/interval[1])+off;
+    p=subalong/interval[1];
+    q=1-p;
+    p=1-q;
+    ret=(pnt[1]*q+pnt[2]*p)+off;
   }
   return ret;
 }
