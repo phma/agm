@@ -235,13 +235,17 @@ int main(int argc,char **argv)
     mid=(hi+lo)/2;
   }
   cout<<"Loop size doubles at "<<ldecimal(mid)<<endl;
+  /* Draw a 355-pointed star with each point two radians after the previous one.
+   * The last line is not exact, but as 355/113 is a good approximation to π,
+   * it is really close.
+   */
   ps.startpage();
   ps.setcolor(0,0,1);
   ps.setscale(1-2e-7,-2e-7,1+2e-7,2e-7);
   ps.startline();
-  for (i=0;i<356;i++)
+  for (i=0;i<355;i++)
     ps.lineto(khe(complex<double>(-17,i*2)));
-  ps.endline();
+  ps.endline(true);
   ps.endpage();
   /* Draw just before and just after the loop doubles in size, with the distance
    * between them exaggerated. Most of the difference is from interpolating
