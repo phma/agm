@@ -14,6 +14,7 @@
 #include <cfloat>
 #include "agm.h"
 #include "angle.h"
+#include "deriv4.h"
 #include "pairwisesum.h"
 #include "ldecimal.h"
 #include "ps.h"
@@ -156,6 +157,25 @@ void plotSquare(PostScript &ps,complex<double> f(complex<double> z),complex<doub
   ps.endpage();
 }
 
+double relativeError(double x)
+/* Computes the RMS error of the khe function. x should be a seam.
+ */
+{
+  array<complex<double>,4> xsect;
+  double h=x/1e7; // small enough that the third derivative should be less than an ulp
+  complex<double> ctr;
+  vector<double> errors;
+  int i,j;
+  for (i=0;i<355;i++)
+  {
+    ctr=khe(complex<double>(x,i));
+    for (j=0;j<4;j++)
+      xsect[j]=khe(complex<double>(x+(j-1.5)*h,i));
+    errors.push_back(norm(deriv3(xsect)/4./ctr));
+  }
+  return sqrt(pairwisesum(errors)/errors.size());
+}
+
 int main(int argc,char **argv)
 {
   AgmResult ag;
@@ -277,6 +297,16 @@ int main(int argc,char **argv)
     ps.lineto(loops[1][i]);
   ps.endline(true);
   ps.endpage();
+  // Compute the error of the khe function.
+  cout<<"Relative error at "<<mid<<" is "<<ldecimal(relativeError(mid))<<endl;
+  cout<<"Relative error at "<<mid/1.5<<" is "<<ldecimal(relativeError(mid/1.5))<<endl;
+  cout<<"Relative error at "<<mid/2<<" is "<<ldecimal(relativeError(mid/2))<<endl;
+  cout<<"Relative error at "<<mid/3<<" is "<<ldecimal(relativeError(mid/3))<<endl;
+  cout<<"Relative error at "<<mid/4<<" is "<<ldecimal(relativeError(mid/4))<<endl;
+  cout<<"Relative error at "<<mid/6<<" is "<<ldecimal(relativeError(mid/6))<<endl;
+  cout<<"Relative error at "<<mid/8<<" is "<<ldecimal(relativeError(mid/8))<<endl;
+  cout<<"Relative error at "<<mid/12<<" is "<<ldecimal(relativeError(mid/12))<<endl;
+  cout<<"Relative error at "<<mid/16<<" is "<<ldecimal(relativeError(mid/16))<<endl;
   for (i=0;i<12;i++)
   {
     loops[i]=getLoop((-17.03+i*0.01)/64);
@@ -350,4 +380,3 @@ int main(int argc,char **argv)
   cout<<pvAgm(pvAgm(2,7),pvAgm(5,3))<<endl;
   return 0;
 }
-  
