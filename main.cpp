@@ -378,5 +378,10 @@ int main(int argc,char **argv)
   cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
   cout<<pvAgm(pvAgm(2,5),pvAgm(3,7))<<' ';
   cout<<pvAgm(pvAgm(2,7),pvAgm(5,3))<<endl;
+  /* The loop at x, as x approaches 0 from below, fits in a box {u+vi |
+   * -t/3<u<t, -t/2<v<t/2}, where t*x=-π. This does not hold for x much less
+   * than -1.
+   */
+  cout<<"Scale factor for loop box "<<ldecimal(khe(-1/64.).real()/64)<<endl;
   return 0;
 }
