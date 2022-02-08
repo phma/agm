@@ -30,7 +30,13 @@
 #include "khe.h"
 #include "pairwisesum.h"
 using namespace std;
+#define ULPRAD 65
+/* This can be 65 (5*13), 85 (5*17), or 221 (13*17).
+ * These numbers have 36 integral points on their circles.
+ * The normal setting is 65.
+ */
 
+#if ULPRAD==65
 const signed char c65[]=
 {
   65,63,60,56,52,39,33,25,16,
@@ -44,6 +50,7 @@ const double a65[]=
   atan2(0,65),atan2(16,63),atan2(25,60),atan2(33,56),atan2(39,52),
   atan2(52,39),atan2(56,33),atan2(60,25),atan2(63,16),atan2(65,0)
 };
+#endif
 
 map<double,vector<vector<complex<double> > > > loopCache;
 /* The key is the circle center used to make the 65-ulp loop, which loops
@@ -70,7 +77,7 @@ double circleCenter(double x)
  * should be greater than 2-65ulp.
  */
 {
-  return exp(-x)*65/4*DBL_EPSILON;
+  return exp(-x)*ULPRAD/4*DBL_EPSILON;
 }
 
 vector<complex<double> > agmExpand(vector<complex<double> > loop)
@@ -101,10 +108,10 @@ KheCachedLoop _getLoop(double x)
   ret.center=0;
   ret.loop=nullptr;
   int nExpand=-1,i;
-  for (i=0;x<0 && tryCenter<2-65*DBL_EPSILON;i++)
+  for (i=0;x<0 && tryCenter<2-ULPRAD*DBL_EPSILON;i++)
   {
     tryCenter=circleCenter(ldexp(x,i));
-    if (tryCenter<2-65*DBL_EPSILON)
+    if (tryCenter<2-ULPRAD*DBL_EPSILON)
     {
       nExpand=i;
       center=tryCenter;
