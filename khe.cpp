@@ -30,7 +30,7 @@
 #include "khe.h"
 #include "pairwisesum.h"
 using namespace std;
-#define ULPRAD 221
+#define ULPRAD 65
 /* This can be 65 (5*13), 85 (5*17), or 221 (13*17).
  * These numbers have 36 integral points on their circles.
  * The normal setting is 65.
