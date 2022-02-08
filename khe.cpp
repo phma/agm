@@ -30,7 +30,7 @@
 #include "khe.h"
 #include "pairwisesum.h"
 using namespace std;
-#define ULPRAD 65
+#define ULPRAD 85
 /* This can be 65 (5*13), 85 (5*17), or 221 (13*17).
  * These numbers have 36 integral points on their circles.
  * The normal setting is 65.
@@ -49,6 +49,22 @@ const double a65[]=
 {
   atan2(0,65),atan2(16,63),atan2(25,60),atan2(33,56),atan2(39,52),
   atan2(52,39),atan2(56,33),atan2(60,25),atan2(63,16),atan2(65,0)
+};
+#endif
+
+#if ULPRAD==85
+const signed char c65[]=
+{
+  85,84,77,75,68,51,40,36,13,
+  0,-13,-36,-40,-51,-68,-75,-77,-84,
+  -85,-84,-77,-75,-68,-51,-40,-36,-13,
+  0,13,36,40,51,68,75,77,84
+};
+
+const double a65[]=
+{
+  atan2(0,85),atan2(13,84),atan2(36,77),atan2(40,75),atan2(51,68),
+  atan2(68,51),atan2(75,40),atan2(77,36),atan2(84,13),atan2(85,0)
 };
 #endif
 
