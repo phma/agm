@@ -22,6 +22,7 @@
 using namespace std;
 
 const bool inverted=false;
+Khe khe65,khe85(85),khe221(221);
 
 void printag(AgmResult ag)
 {

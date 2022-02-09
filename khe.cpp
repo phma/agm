@@ -317,3 +317,41 @@ void outMaxMag(vector<complex<double> > &loop)
     if (i==0 || (abs(loop[i])>abs(loop[i-1]) && abs(loop[i])>abs(loop[i+1])))
       cout<<xt(i)*1./xt(sz)<<' '<<loop[i]/loop[0]*2.<<endl;
 }
+
+void Khe::init(int circleSize)
+{
+  int64_t i=circleSize,j=0,n=0;
+  radius=abs(circleSize);
+  while (i>j)
+    if (i*i+j*j==radius*radius)
+    {
+      arcTan[n]=atan2(j,i);
+      arcTan[9-n]=atan2(i,j);
+      cirCoord[n]=i--;
+      cirCoord[27+n]=cirCoord[9-n]=j++;
+      cirCoord[18+n]=cirCoord[18-n]=-cirCoord[n];
+      cirCoord[9+n]=cirCoord[27-n]=-cirCoord[9-n];
+      if (n)
+	cirCoord[36-n]=cirCoord[n];
+      n++;
+    }
+    else if (i*i+j*j>radius*radius)
+      i--;
+    else
+      j++;
+  assert(n==5);
+  /* circleSize must be such that there are 36 integral points on a circle 
+   * of radius circleSize. Such numbers are 65, 85, 145, 185, 205, 221, etc.
+   * See http://oeis.org/A131574 .
+   */
+}
+
+Khe::Khe()
+{
+  init(65);
+}
+
+Khe::Khe(int circleSize)
+{
+  init(circleSize);
+}

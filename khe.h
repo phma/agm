@@ -40,4 +40,16 @@ double xt(int n);
 std::complex<double> khe(std::complex<double> z);
 void outMaxMag(std::vector<std::complex<double> > &loop);
 
+class Khe
+{
+public:
+  Khe();
+  Khe(int circleSize); // Must be a member of http://oeis.org/A131574
+private:
+  int cirCoord[36];
+  double arcTan[10];
+  int radius;
+  void init(int circleSize);
+};
+
 #endif
