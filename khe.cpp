@@ -320,10 +320,10 @@ void outMaxMag(vector<complex<double> > &loop)
 
 void Khe::init(int circleSize)
 {
-  int64_t i=circleSize,j=0,n=0;
-  radius=abs(circleSize);
+  int64_t i=abs(circleSize),j=0,n=0,sq=i*i;
+  radius=i;
   while (i>j)
-    if (i*i+j*j==radius*radius)
+    if (i*i+j*j==sq)
     {
       arcTan[n]=atan2(j,i);
       arcTan[9-n]=atan2(i,j);

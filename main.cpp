@@ -23,6 +23,8 @@ using namespace std;
 
 const bool inverted=false;
 Khe khe65,khe85(85),khe221(221);
+// the following should abort
+//Khe khebig(13*17*29*37*41*53);
 
 void printag(AgmResult ag)
 {
