@@ -282,7 +282,7 @@ KheInterp Khe::getInterp(complex<double> z)
 
 double Khe::xt(int n)
 {
-  return cirCoord[9]*(n/9)+cirCoord[n%9];
+  return arcTan[9]*(n/9)+arcTan[n%9];
 }
 
 complex<double> Khe::operator()(complex<double> z)
