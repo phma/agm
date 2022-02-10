@@ -171,15 +171,18 @@ double relativeError(double x)
 {
   array<complex<double>,4> xsect;
   double h=x/1e7; // small enough that the third derivative should be less than an ulp
+  double maxabs;
   complex<double> ctr;
   vector<double> errors;
   int i,j;
   for (i=0;i<355;i++)
   {
     ctr=khe(complex<double>(x,i));
+    if (i==0)
+      maxabs=ctr.real();
     for (j=0;j<4;j++)
       xsect[j]=khe(complex<double>(x+(j-1.5)*h,i));
-    errors.push_back(norm(deriv3(xsect)/4./ctr));
+    errors.push_back(norm(deriv3(xsect)/4./maxabs));
   }
   return sqrt(pairwisesum(errors)/errors.size());
 }
@@ -306,7 +309,7 @@ int main(int argc,char **argv)
   ps.endline(true);
   ps.endpage();
   // Compute the error of the khe function.
-  for (i=0;i<8;i++)
+  for (i=0;i<12;i++)
   {
     cout<<"Relative error at "<<mid/(1<<i)<<" is "<<
 	  ldecimal(relativeError(mid/(1<<i)))<<endl;
