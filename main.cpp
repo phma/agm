@@ -306,15 +306,13 @@ int main(int argc,char **argv)
   ps.endline(true);
   ps.endpage();
   // Compute the error of the khe function.
-  cout<<"Relative error at "<<mid<<" is "<<ldecimal(relativeError(mid))<<endl;
-  cout<<"Relative error at "<<mid/1.5<<" is "<<ldecimal(relativeError(mid/1.5))<<endl;
-  cout<<"Relative error at "<<mid/2<<" is "<<ldecimal(relativeError(mid/2))<<endl;
-  cout<<"Relative error at "<<mid/3<<" is "<<ldecimal(relativeError(mid/3))<<endl;
-  cout<<"Relative error at "<<mid/4<<" is "<<ldecimal(relativeError(mid/4))<<endl;
-  cout<<"Relative error at "<<mid/6<<" is "<<ldecimal(relativeError(mid/6))<<endl;
-  cout<<"Relative error at "<<mid/8<<" is "<<ldecimal(relativeError(mid/8))<<endl;
-  cout<<"Relative error at "<<mid/12<<" is "<<ldecimal(relativeError(mid/12))<<endl;
-  cout<<"Relative error at "<<mid/16<<" is "<<ldecimal(relativeError(mid/16))<<endl;
+  for (i=0;i<8;i++)
+  {
+    cout<<"Relative error at "<<mid/(1<<i)<<" is "<<
+	  ldecimal(relativeError(mid/(1<<i)))<<endl;
+    cout<<"Relative error at "<<mid/1.5/(1<<i)<<" is "<<
+	  ldecimal(relativeError(mid/1.5/(1<<i)))<<endl;
+  }
   for (i=0;i<12;i++)
   {
     loops[i]=khe.getLoop(-33./(1<<i));
