@@ -72,29 +72,29 @@ void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
   }
   if (i)
     mismatchse.push_back(mismatch[i-1]+1);
-  maxx=xt(sz);
+  maxx=khe.xt(sz);
   ps.startpage();
   ps.setscale(0,-1,3,1,0);
   ps.setcolor(1,1,0);
   for (i=0;i<mismatchse.size();i+=2)
   {
     ps.startline();
-    ps.lineto(complex<double>((xt(mismatchse[i])-2)/maxx*3,-1));
-    ps.lineto(complex<double>((xt(mismatchse[i+1])+2)/maxx*3,-1));
-    ps.lineto(complex<double>((xt(mismatchse[i+1])+2)/maxx*3,1));
-    ps.lineto(complex<double>((xt(mismatchse[i])-2)/maxx*3,1));
+    ps.lineto(complex<double>((khe.xt(mismatchse[i])-2)/maxx*3,-1));
+    ps.lineto(complex<double>((khe.xt(mismatchse[i+1])+2)/maxx*3,-1));
+    ps.lineto(complex<double>((khe.xt(mismatchse[i+1])+2)/maxx*3,1));
+    ps.lineto(complex<double>((khe.xt(mismatchse[i])-2)/maxx*3,1));
     ps.endline(true);
   }
   ps.setcolor(0,0,1);
   ps.startline();
   for (i=0;i<sz;i++)
-    ps.lineto(complex<double>(xt(i)/maxx*3,(logloop[i]-minlog)/(maxlog-minlog)));
+    ps.lineto(complex<double>(khe.xt(i)/maxx*3,(logloop[i]-minlog)/(maxlog-minlog)));
   ps.lineto(complex<double>(3,(logloop[0]-minlog)/(maxlog-minlog)));
   ps.endline();
   ps.setcolor(1,0,0);
   ps.startline();
   for (i=0;i<sz;i++)
-    ps.lineto(complex<double>(xt(i)/maxx*3,(argloop[i]-maxarg)/(maxarg-minarg)));
+    ps.lineto(complex<double>(khe.xt(i)/maxx*3,(argloop[i]-maxarg)/(maxarg-minarg)));
   ps.lineto(complex<double>(3,(argloop[0]-maxarg)/(maxarg-minarg)));
   ps.endline();
   ps.endpage();
@@ -351,7 +351,7 @@ int main(int argc,char **argv)
     }
     ps.endpage();
     plotLogArg(ps,logloop,argloop);
-    outMaxMag(loops[i]);
+    khe.outMaxMag(loops[i]);
   }
   ps.startpage();
   ps.setscale(-2/3.,-1,2,1,0);
