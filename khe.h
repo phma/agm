@@ -15,6 +15,7 @@
 #include <complex>
 #include <vector>
 #include <array>
+#include <map>
 
 struct KheCachedLoop
 {
@@ -45,11 +46,24 @@ class Khe
 public:
   Khe();
   Khe(int circleSize); // Must be a member of http://oeis.org/A131574
+  std::vector<std::complex<double> > getLoop(double x);
+  double xt(int n);
+  std::complex<double> operator()(std::complex<double> z);
 private:
   int cirCoord[36];
   double arcTan[10];
-  int radius;
+  int radius; // Radius of circle returned by tinyCircle
+  std::map<double,std::vector<std::vector<std::complex<double> > > > loopCache;
+  /* The key is the circle center used to make the circular loop, which loops
+  * must be divided by when fetching them from cache. The value is a sequence
+  * of loops, the 0th being the circular loop with 36 points, and each
+  * successive loop having twice as many points.
+  */
   void init(int circleSize);
+  std::vector<std::complex<double> > tinyCircle(std::complex<double> center);
+  double circleCenter(double x);
+  KheCachedLoop _getLoop(double x);
+  KheInterp getInterp(std::complex<double> z);
 };
 
 #endif

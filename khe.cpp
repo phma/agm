@@ -253,7 +253,7 @@ double xt(int n)
 }
 
 complex<double> khe(complex<double> z)
-/* Uses linear interpolation. TODO use cubic interpolation.
+/* uses cubic interpolation.
  * Computes the khe function of z. If z is too close to the imaginary axis,
  * may give wrong answers.
  */
@@ -354,4 +354,165 @@ Khe::Khe()
 Khe::Khe(int circleSize)
 {
   init(circleSize);
+}
+
+vector<complex<double> > Khe::tinyCircle(complex<double> center)
+/* Returns a circle of size radius ulps. center must be between 2 and -2,
+ * exclusive, or the result will be inaccurate.
+ */
+{
+  vector<complex<double> > ret;
+  int i;
+  for (i=0;i<36;i++)
+    ret.push_back(center+complex<double>(cirCoord[i],cirCoord[(i+27)%36])*DBL_EPSILON);
+  return ret;
+}
+
+double Khe::circleCenter(double x)
+/* Returns the center to pass to tinyCircle to compute խ(x+iy).
+ * The result should be at most 2-radius*ulp, and if called with 2x, the result
+ * should be greater than 2-radius*ulp.
+ */
+{
+  return exp(-x)*radius/4*DBL_EPSILON;
+}
+
+KheCachedLoop Khe::_getLoop(double x)
+{
+  double center=0,tryCenter=0;
+  KheCachedLoop ret;
+  ret.center=0;
+  ret.loop=nullptr;
+  int nExpand=-1,i;
+  for (i=0;x<0 && tryCenter<2-radius*DBL_EPSILON;i++)
+  {
+    tryCenter=circleCenter(ldexp(x,i));
+    if (tryCenter<2-radius*DBL_EPSILON)
+    {
+      nExpand=i;
+      center=tryCenter;
+    }
+  }
+  if (center)
+  {
+    if (!loopCache.count(center))
+      loopCache[center].push_back(tinyCircle(center));
+    while (loopCache[center].size()-1<nExpand)
+      loopCache[center].push_back(agmExpand(loopCache[center].back()));
+    ret.loop=&loopCache[center][nExpand];
+    ret.center=center;
+  }
+  return ret;
+}
+
+vector<complex<double> > Khe::getLoop(double x)
+/* Returns the loop with real part equal to x, which must be negative.
+ * If x results in a circle center greater than 2, returns an empty vector;
+ * խ(z) is then within an ulp of 4*exp(z)+1. If x>-1/60., it may return
+ * the numbers in the loop in the wrong order. If x>=0, returns empty.
+ */
+{
+  KheCachedLoop cloop;
+  vector<complex<double> > ret;
+  int i;
+  cloop=_getLoop(x);
+  if (cloop.center)
+  {
+    ret=*cloop.loop;
+    for (i=0;i<ret.size();i++)
+      ret[i]/=cloop.center;
+  }
+  return ret;
+}
+
+KheInterp Khe::getInterp(complex<double> z)
+/* Returns 12 numbers from the loop, of which points[1] and points[10] come
+ * from the quadrants of the original circle of size radius ulps, and the
+ * amount by which z.imag() is along the interval from points[1] to points[10].
+ */
+{
+  KheCachedLoop cloop;
+  KheInterp ret;
+  double y;
+  int pointStart,i,sz;
+  cloop=_getLoop(z.real());
+  if (cloop.center)
+  {
+    y=z.imag()-(2*M_PI)*rint(z.imag()/(2*M_PI));
+    sz=cloop.loop->size();
+    pointStart=lrint(y*(sz/18)/M_PI)*9;
+    ret.along=y*(sz/36)-(pointStart/9)*(M_PI/2);
+    if (ret.along<0)
+    {
+      ret.along+=M_PI/2;
+      pointStart-=9;
+    }
+    if (pointStart<2)
+      pointStart+=sz;
+    for (i=0;i<12;i++)
+      ret.points[i]=(*cloop.loop)[(pointStart+i-1)%sz]/cloop.center;
+  }
+  else
+    ret.along=NAN;
+  return ret;
+}
+
+double Khe::xt(int n)
+{
+  return cirCoord[9]*(n/9)+cirCoord[n%9];
+}
+
+complex<double> Khe::operator()(complex<double> z)
+/* uses cubic interpolation.
+ * Computes the khe function of z. If z is too close to the imaginary axis,
+ * may give wrong answers.
+ */
+{
+  KheInterp interp=getInterp(z);
+  complex<double> ret;
+  int i,n;
+  double subalong,interval[3],p,q;
+  complex<double> off,pnt[4],ctrl[2],slp[2];
+  if (z.real()>=0)
+    ret=complex<double>(NAN,NAN);
+  else if (isnan(interp.along))
+    ret=4.*exp(z)+1.;
+  else
+  {
+    for (i=0;i<9;i++)
+      if (a65[i]<=interp.along)
+      {
+	n=i;
+	subalong=interp.along-a65[i];
+	interval[1]=a65[i+1]-a65[i];
+      }
+    if (abs(interp.points[n+1])<abs(interp.points[n+2]))
+      off=interp.points[n+1];
+    else
+      off=interp.points[n+2];
+    for (i=0;i<4;i++)
+      pnt[i]=interp.points[n+i]-off;
+    assert(subalong<interval[1]);
+    if (n==0)
+      interval[0]=a65[1];
+    else
+      interval[0]=a65[n]-a65[n-1];
+    if (n==8)
+      interval[2]=a65[1];
+    else
+      interval[2]=a65[n+2]-a65[n+1];
+    slp[0]=((pnt[2]-pnt[1])*interval[0]+
+	    (pnt[1]-pnt[0])/interval[0]*interval[1]*interval[1])/
+	    (interval[0]+interval[1]);
+    slp[1]=((pnt[2]-pnt[1])*interval[2]+
+	    (pnt[3]-pnt[2])/interval[2]*interval[1]*interval[1])/
+	    (interval[1]+interval[2]);
+    ctrl[0]=pnt[1]+slp[0]/3.;
+    ctrl[1]=pnt[2]-slp[1]/3.;
+    p=subalong/interval[1];
+    q=1-p;
+    p=1-q;
+    ret=(pnt[1]*q*q*q+3.*ctrl[0]*p*q*q+3.*ctrl[1]*p*p*q+pnt[2]*p*p*p)+off;
+  }
+  return ret;
 }
