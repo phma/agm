@@ -480,11 +480,11 @@ complex<double> Khe::operator()(complex<double> z)
   else
   {
     for (i=0;i<9;i++)
-      if (a65[i]<=interp.along)
+      if (arcTan[i]<=interp.along)
       {
 	n=i;
-	subalong=interp.along-a65[i];
-	interval[1]=a65[i+1]-a65[i];
+	subalong=interp.along-arcTan[i];
+	interval[1]=arcTan[i+1]-arcTan[i];
       }
     if (abs(interp.points[n+1])<abs(interp.points[n+2]))
       off=interp.points[n+1];
@@ -494,13 +494,13 @@ complex<double> Khe::operator()(complex<double> z)
       pnt[i]=interp.points[n+i]-off;
     assert(subalong<interval[1]);
     if (n==0)
-      interval[0]=a65[1];
+      interval[0]=arcTan[1];
     else
-      interval[0]=a65[n]-a65[n-1];
+      interval[0]=arcTan[n]-arcTan[n-1];
     if (n==8)
-      interval[2]=a65[1];
+      interval[2]=arcTan[1];
     else
-      interval[2]=a65[n+2]-a65[n+1];
+      interval[2]=arcTan[n+2]-arcTan[n+1];
     slp[0]=((pnt[2]-pnt[1])*interval[0]+
 	    (pnt[1]-pnt[0])/interval[0]*interval[1]*interval[1])/
 	    (interval[0]+interval[1]);
