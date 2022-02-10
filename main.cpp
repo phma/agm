@@ -317,7 +317,7 @@ int main(int argc,char **argv)
   cout<<"Relative error at "<<mid/16<<" is "<<ldecimal(relativeError(mid/16))<<endl;
   for (i=0;i<12;i++)
   {
-    loops[i]=khe.getLoop((-17.03+i*0.01)/64);
+    loops[i]=khe.getLoop(-33./(1<<i));
     ps.startpage();
     ps.setcolor(0,0,1);
     for (j=0;j<loops[i].size();j++)
