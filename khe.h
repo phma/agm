@@ -29,13 +29,13 @@ struct KheInterp
   double along;
 };
 
-double circleCenter(double x);
-std::vector<std::complex<double> > tinyCircle(std::complex<double> center);
+//double circleCenter(double x);
+//std::vector<std::complex<double> > tinyCircle(std::complex<double> center);
 std::vector<std::complex<double> > agmExpand(std::vector<std::complex<double> > loop);
 std::vector<double> vecLog(std::vector<std::complex<double> > loop);
 std::vector<double> vecArg(std::vector<std::complex<double> > loop);
-std::vector<std::complex<double> > getLoop(double x);
-KheInterp getInterp(std::complex<double> z);
+//std::vector<std::complex<double> > getLoop(double x);
+//KheInterp getInterp(std::complex<double> z);
 double avgRadius(std::vector<std::complex<double> > loop);
 double xt(int n);
 //std::complex<double> khe(std::complex<double> z);

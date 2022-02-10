@@ -255,7 +255,7 @@ int main(int argc,char **argv)
   mid=-16;
   while (hi>mid && mid>lo)
   {
-    loops[0]=getLoop(mid);
+    loops[0]=khe.getLoop(mid);
     if (loops[0].size()>64)
       hi=mid;
     else
@@ -317,7 +317,7 @@ int main(int argc,char **argv)
   cout<<"Relative error at "<<mid/16<<" is "<<ldecimal(relativeError(mid/16))<<endl;
   for (i=0;i<12;i++)
   {
-    loops[i]=getLoop((-17.03+i*0.01)/64);
+    loops[i]=khe.getLoop((-17.03+i*0.01)/64);
     ps.startpage();
     ps.setcolor(0,0,1);
     for (j=0;j<loops[i].size();j++)
@@ -378,11 +378,6 @@ int main(int argc,char **argv)
     diam[i]=avgRadius(loops[i]);
     cout<<i<<' '<<ldecimal(diam[i])<<' '<<ldecimal(log(diam[i]))<<endl;
   }
-  cout<<ldecimal(log(diam[0]/diam[1])/log(diam[1]/diam[2]))<<" should be 2\n";
-  x65=-2*(log(diam[1]/diam[0]));
-  cout<<"x for 65-ulp loop around 1 is "<<ldecimal(x65)<<endl;
-  cout<<"Center for x="<<x65<<" is "<<ldecimal(circleCenter(x65))<<endl;
-  cout<<"Center for x="<<x65/2<<" is "<<ldecimal(circleCenter(x65/2))<<endl;
   cout<<pvAgm(pvAgm(2,3),pvAgm(5,7))<<' ';
   cout<<pvAgm(pvAgm(2,5),pvAgm(3,7))<<' ';
   cout<<pvAgm(pvAgm(2,7),pvAgm(5,3))<<endl;
