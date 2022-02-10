@@ -391,5 +391,8 @@ int main(int argc,char **argv)
    * than -1.
    */
   cout<<"Scale factor for loop box "<<ldecimal(khe(-1/64.).real()/64)<<endl;
+  cout<<"65:  "<<khe65(complex<double>(-1,-1))<<endl;
+  cout<<"85:  "<<khe85(complex<double>(-1,-1))<<endl;
+  cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
   return 0;
 }
