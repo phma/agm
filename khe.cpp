@@ -21,6 +21,11 @@
  * at p=1 is the loop for x=-ln(2^54/65) (-33.25556048034141) within machine
  * precision, assuming 8-byte floats. It then applies the functional equations,
  * doubling the number of points each time.
+ *
+ * The computation is accurate within 1.5e-8 times the maximum absolute value
+ * of the loop as long as x<-0.133, and probably as long as x<-0.0664. At the
+ * -0.0663 seam, something goes wrong. Between -33 (-0.016113) and -32/2048
+ * (-0.015625), the loop goes out of order.
  */
 
 #include <iostream>
