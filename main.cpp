@@ -22,7 +22,7 @@
 using namespace std;
 
 const bool inverted=false;
-Khe khe65,khe85(85),khe221(221);
+Khe khe,khe85(85),khe221(221);
 // the following should succeed
 //Khe kheneg(-221); // same as 221
 //Khe khe255(255); // same as 85 but thrice as big
@@ -134,7 +134,7 @@ void outMismatch(const vector<complex<double> > &prevLoop,const vector<complex<d
   file<<"</table></body></html>\n";
 }
 
-void plotSquare(PostScript &ps,complex<double> f(complex<double> z),complex<double> cen,complex<double> h)
+void plotSquare(PostScript &ps,Khe f,complex<double> cen,complex<double> h)
 {
   complex<double> fcen;
   vector<complex<double> > values;
@@ -391,7 +391,7 @@ int main(int argc,char **argv)
    * than -1.
    */
   cout<<"Scale factor for loop box "<<ldecimal(khe(-1/64.).real()/64)<<endl;
-  cout<<"65:  "<<khe65(complex<double>(-1,-1))<<endl;
+  cout<<"65:  "<<khe(complex<double>(-1,-1))<<endl;
   cout<<"85:  "<<khe85(complex<double>(-1,-1))<<endl;
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
   return 0;
