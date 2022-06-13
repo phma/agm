@@ -187,6 +187,24 @@ double relativeError(double x)
   return sqrt(pairwisesum(errors)/errors.size());
 }
 
+void modform1(complex<double> z)
+{
+  complex<double> invz=4.*M_PI*M_PI/z;
+  complex<double> ratio=khe(invz)/khe(z);
+  cout<<"At scaled z "<<-z/2./M_PI<<", ratio "<<ratio<<endl;
+}
+
+void modform()
+/* Check whether խ(z), with suitable scaling, is a modular form.
+ * Modular forms are defined in the upper half plane and have period 1.
+ * խ(z) is defined in the left half plane and has period 2πi.
+ */
+{
+  cout<<"խ(-2π)="<<khe(-2*M_PI)<<endl;
+  modform1(-2*M_PI);
+  modform1(-3*M_PI);
+}
+
 int main(int argc,char **argv)
 {
   AgmResult ag;
@@ -390,5 +408,6 @@ int main(int argc,char **argv)
   cout<<"65:  "<<khe(complex<double>(-1,-1))<<endl;
   cout<<"85:  "<<khe85(complex<double>(-1,-1))<<endl;
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
+  modform();
   return 0;
 }
