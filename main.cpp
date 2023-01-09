@@ -3,7 +3,7 @@
 /* main.cpp - main program                            */
 /*                                                    */
 /******************************************************/
-/* Copyright 2021,2022 Pierre Abbat
+/* Copyright 2021-2023 Pierre Abbat
  * Licensed under the Apache License, Version 2.0.
  * This file is part of AGM.
  */
@@ -185,6 +185,28 @@ double relativeError(double x)
     errors.push_back(norm(deriv3(xsect)/4./maxabs));
   }
   return sqrt(pairwisesum(errors)/errors.size());
+}
+
+array<double,3> zoomBounds(double x)
+/* [0] is right bound, [1] is imag part of top and bottom, [2] is left.
+ * x is negative.
+ */
+{
+  array<double,3> ret;
+  double infAsymp=4*exp(x); // approaches 1
+  double zeroAsymp=-M_PI/x; // measured from 0
+  ret[0]=1+1/(1/infAsymp+1/zeroAsymp);
+  ret[1]=1/(1/infAsymp+2/zeroAsymp);
+  ret[2]=1-1/(1/infAsymp+3/zeroAsymp);
+  return ret;
+}
+
+void zoomOut()
+/* Draw graphs of loops from x=-32 to -1/15 in geometric progression.
+ * This is almost 9 octaves; at 30 frames per second, it should take 60 frames
+ * per octave for 18 seconds.
+ */
+{
 }
 
 int main(int argc,char **argv)
