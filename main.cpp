@@ -210,16 +210,29 @@ void zoomOut()
   PostScript ps;
   const int framesPerOctave=60;
   vector<double> xcoord;
+  array<double,3> bounds;
   double x;
-  int i;
+  int i,j,n;
   for (i=0;i<framesPerOctave;i++)
     xcoord.push_back(-32*pow(0.5,(double)i/framesPerOctave));
+  ps.open("zoom.ps");
+  ps.setpaper(papersizes["A4 landscape"],0);
+  ps.prolog();
   for (i=0;;i++)
   {
     x=xcoord[i%framesPerOctave]/(1<<(i/framesPerOctave));
     if (x>-1/15.)
       break;
     cout<<x<<endl;
+    bounds=zoomBounds(x);
+    ps.startpage();
+    ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1]);
+    n=lrint(-1024/x);
+    ps.startline();
+    for (j=0;j<n;j++)
+      ps.lineto(khe(complex<double>(x,j*2*M_PI/n)));
+    ps.endline(true);
+    ps.endpage();
   }
 }
 
