@@ -207,6 +207,20 @@ void zoomOut()
  * per octave for 18 seconds.
  */
 {
+  PostScript ps;
+  const int framesPerOctave=60;
+  vector<double> xcoord;
+  double x;
+  int i;
+  for (i=0;i<framesPerOctave;i++)
+    xcoord.push_back(-32*pow(0.5,(double)i/framesPerOctave));
+  for (i=0;;i++)
+  {
+    x=xcoord[i%framesPerOctave]/(1<<(i/framesPerOctave));
+    if (x>-1/15.)
+      break;
+    cout<<x<<endl;
+  }
 }
 
 int main(int argc,char **argv)
@@ -412,5 +426,6 @@ int main(int argc,char **argv)
   cout<<"65:  "<<khe(complex<double>(-1,-1))<<endl;
   cout<<"85:  "<<khe85(complex<double>(-1,-1))<<endl;
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
+  zoomOut();
   return 0;
 }
