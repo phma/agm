@@ -3,7 +3,7 @@
 /* ps.h - PostScript output                           */
 /*                                                    */
 /******************************************************/
-/* Copyright 2012-2018,2021,2022 Pierre Abbat
+/* Copyright 2012-2018,2021-2023 Pierre Abbat
  * Licensed under the Apache License, Version 2.0.
  * This file is part of AGM.
  */
@@ -47,7 +47,7 @@ public:
   double yscale(double y);
   std::string escape(std::string text);
   void setcolor(double r,double g,double b);
-  void setscale(double minx,double miny,double maxx,double maxy,int ori=0);
+  void setscale(double minx,double miny,double maxx,double maxy,int ori=0,bool exact=false);
   double getscale();
   void dot(std::complex<double> pnt,std::string comment="");
   void circle(std::complex<double> pnt,double radius,bool fill=false);

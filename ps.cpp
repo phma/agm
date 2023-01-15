@@ -3,7 +3,7 @@
 /* ps.cpp - PostScript output                         */
 /*                                                    */
 /******************************************************/
-/* Copyright 2012-2019,2021,2022 Pierre Abbat
+/* Copyright 2012-2019,2021-2023 Pierre Abbat
  * Licensed under the Apache License, Version 2.0.
  * This file is part of AGM.
  */
@@ -213,7 +213,7 @@ void PostScript::setcolor(double r,double g,double b)
   }
 }
 
-void PostScript::setscale(double minx,double miny,double maxx,double maxy,int ori)
+void PostScript::setscale(double minx,double miny,double maxx,double maxy,int ori,bool exact)
 /* To compute minx etc. using dirbound on e.g. a pointlist pl:
  * minx=pl.dirbound(-ori);
  * miny=pl.dirbound(DEG90-ori);
@@ -231,10 +231,19 @@ void PostScript::setscale(double minx,double miny,double maxx,double maxy,int or
   papy=paper.imag();
   if (pageorientation&1)
     swap(papx,papy);
-  for (scale=1;scale*xsize/10<papx && scale*ysize/10<papy;scale*=10);
-  for (;scale*xsize/80>papx*0.9 || scale*ysize/80>papy*0.9;scale/=10);
-  for (i=0;i<9 && (scale*xsize/rscales[i]>papx*0.9 || scale*ysize/rscales[i]>papy*0.9);i++);
-  scale/=rscales[i];
+  if (exact)
+  {
+    scale=papx/xsize;
+    if (scale*ysize>papy)
+      scale=papy/ysize;
+  }
+  else
+  {
+    for (scale=1;scale*xsize/10<papx && scale*ysize/10<papy;scale*=10);
+    for (;scale*xsize/80>papx*0.9 || scale*ysize/80>papy*0.9;scale/=10);
+    for (i=0;i<9 && (scale*xsize/rscales[i]>papx*0.9 || scale*ysize/rscales[i]>papy*0.9);i++);
+    scale/=rscales[i];
+  }
   *psfile<<"% minx="<<minx<<" miny="<<miny<<" maxx="<<maxx<<" maxy="<<maxy<<" scale="<<scale<<endl;
 }
 

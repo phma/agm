@@ -271,7 +271,7 @@ void zoomOut()
     cout<<x<<endl;
     bounds=zoomBounds(x);
     ps.startpage();
-    ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1]);
+    ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1],0,true);
     drawGrid(ps,bounds);
     ps.setcolor(0,0,0);
     n=lrint(-1024/x);
