@@ -301,7 +301,7 @@ void sweep()
   ps.open("sweep.ps");
   ps.setpaper(papersizes["A4 landscape"],0);
   ps.prolog();
-  bounds=zoomBounds(-1/15.);
+  bounds=zoomBounds(-1/10.);
   for (i=-200;i<=200;i+=2)
   {
     ps.startpage();
@@ -313,7 +313,7 @@ void sweep()
     for (j=0;;j++)
     {
       x=xcoord[j%framesPerOctave]/(1<<(j/framesPerOctave));
-      if (x>-1/15.)
+      if (x>-1/10.)
 	break;
       ps.lineto(khe(complex<double>(x,i*M_PI/180)));
     }

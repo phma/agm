@@ -3,7 +3,7 @@
 /* khe.cpp - compute khe function                     */
 /*                                                    */
 /******************************************************/
-/* Copyright 2021,2022 Pierre Abbat
+/* Copyright 2021-2023 Pierre Abbat
  * Licensed under the Apache License, Version 2.0.
  * This file is part of AGM.
  */
@@ -92,6 +92,15 @@ map<double,vector<vector<complex<double> > > > loopCache;
  */
 
 vector<complex<double> > agmExpand(vector<complex<double> > loop)
+/* Starting angles and where they seem to end up:
+ * 0°	(1,0)
+ * 45°	(0,1/4)
+ * 60°	(0,0)
+ * 90°	(0,1/2)
+ * 120°	(-1/3,0)
+ * 135°	(0,-1/4)
+ * 180°	(0,0)
+ */
 {
   vector<complex<double> > ret;
   int i,sz=loop.size();
