@@ -92,7 +92,7 @@ map<double,vector<vector<complex<double> > > > loopCache;
  */
 
 vector<complex<double> > agmExpand(vector<complex<double> > loop)
-/* Starting angles and where they seem to end up:
+/* Starting angles and where they end up:
  * 0°	(1,0)
  * 45°	(0,1/4)
  * 60°	(0,0)
@@ -100,6 +100,19 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
  * 120°	(-1/3,0)
  * 135°	(0,-1/4)
  * 180°	(0,0)
+ * Expansion, where the first is the AM, the second is the GM, and the
+ * third and fourth are the results of expansion:
+ * 0° (1,0), 180° (0,0) -> 0° (2,0), 180° (0,0)
+ * 60° (0,0), 240° (-1/3,0) -> 30° (0,1/3), 210° (0,-1/3)
+ * 90° (0,1/2), 270° (0,-1/2) -> 45° (0,1/2), 225° (0,1/2)
+ * 120° (-1/3,0), 300° (0,0) -> 60° (0,0), 240° (-2/3,0)
+ * 180° (0,0), 0° (1,0) -> 90° (0,1), 270° (0,-1)
+ * 240° (-1/3,0), 60° (0,0) -> 120° (-2/3,0), 300° (0,0)
+ * 270° (0,-1/2), 90° (0,1/2) -> 135° (0,-1/2), 315° (0,-1/2)
+ * 300° (0,0), 120° (-1/3,0) -> 150° (0,1/3), 330° (0,-1/3)
+ * Swapping should start at 0°/180° and 90°/270° and proceed in both directions,
+ * ending at 45°/225° and 135°/315°, where the numbers being swapped
+ * end up equal.
  */
 {
   vector<complex<double> > ret;
