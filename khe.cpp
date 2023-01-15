@@ -91,6 +91,53 @@ map<double,vector<vector<complex<double> > > > loopCache;
  * loop having twice as many points.
  */
 
+KheSwapStep::KheSwapStep(int n,int d,vector<complex<double> > &loop)
+/* loop[a] and loop[b] are both real, in which case loop[a] should be near
+ * loop[0]/k where k is in [1,-3,5,-7,...], or loop[a] and loop[b] are
+ * both imaginary, in which case loop[a] should have positive imaginary part.
+ */
+{
+  double realness,imagness;
+  a=n;
+  b=(n+loop.size()/2)%loop.size();
+  dir=(d<0)?-1:1;
+  realness=fabs(real(loop[a]))+fabs(real(loop[b]));
+  imagness=fabs(imag(loop[a]))+fabs(imag(loop[b]));
+  if ((realness>imagness && abs(loop[b])>abs(loop[a])) ||
+      (imagness>realness && imag(loop[b])>imag(loop[a])))
+    ::swap(a,b);
+  dist=abs(loop[a]-loop[b]);
+  lastDiff=loop[a]-loop[b];
+}
+
+void KheSwapStep::step(vector<complex<double> > &loop)
+{
+  a+=dir;
+  b+=dir;
+  if (a<0)
+    a+=loop.size();
+  if (a>=loop.size())
+    a-=loop.size();
+  if (b<0)
+    b+=loop.size();
+  if (b>=loop.size())
+    b-=loop.size();
+  dist=abs(loop[a]-loop[b]);
+}
+
+void KheSwapStep::swap(vector<complex<double> > &loop)
+{
+  if (real((loop[a]-loop[b])/lastDiff)<0)
+    ::swap(loop[a],loop[b]);
+  if (loop[a]!=loop[b])
+    lastDiff=loop[a]-loop[b];
+}
+
+bool meet(KheSwapStep &n,KheSwapStep &s)
+{
+  return n.dir!=s.dir && (n.a==s.a || n.a==s.b);
+}
+
 vector<complex<double> > agmExpand(vector<complex<double> > loop)
 /* Starting angles and where they end up:
  * 0°	(1,0)

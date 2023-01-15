@@ -3,7 +3,7 @@
 /* khe.h - compute khe function                       */
 /*                                                    */
 /******************************************************/
-/* Copyright 2021,2022 Pierre Abbat
+/* Copyright 2021-2023 Pierre Abbat
  * Licensed under the Apache License, Version 2.0.
  * This file is part of AGM.
  */
@@ -27,6 +27,19 @@ struct KheInterp
 {
   std::array<std::complex<double>,12> points;
   double along;
+};
+
+class KheSwapStep
+{
+public:
+  KheSwapStep(int n,int d,std::vector<std::complex<double> > &loop);
+  void step(std::vector<std::complex<double> > &loop);
+  void swap(std::vector<std::complex<double> > &loop);
+  std::complex<double> lastDiff;
+  double dist;
+  int a,b;
+  int dir;
+  friend bool meet(KheSwapStep &n,KheSwapStep &s);
 };
 
 std::vector<std::complex<double> > agmExpand(std::vector<std::complex<double> > loop);
