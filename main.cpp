@@ -196,12 +196,14 @@ array<double,3> zoomBounds(double x)
   double infAsymp=4*exp(x); // approaches 1
   double zeroAsymp=-M_PI/x; // measured from 0
   double khex=khe(x).real();
-  double weight=1-exp(-x*x/20);
+  double weight=1-exp(-x*x);
   double inc;
   ret[0]=weight*(infAsymp+1)+(1-weight)*zeroAsymp;
   ret[1]=weight*(infAsymp)+(1-weight)*zeroAsymp/2;
   ret[2]=weight*(1-infAsymp)-(1-weight)*zeroAsymp/3;
   ret[1]*=4/3.; // enlarge bounds
+  if (khex>ret[0])
+    cout<<'\r';
   inc=(ret[0]-ret[2])/6.;
   ret[2]-=inc;
   ret[0]+=inc;
