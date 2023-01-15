@@ -213,23 +213,37 @@ void drawGrid(PostScript &ps,const array<double,3> &bounds)
   int i,right,top,left;
   double gridOrigin;
   double gridSpacing=1;
+  double mantissa;
   while (gridSpacing<bounds[1])
     gridSpacing*=10;
-  while (gridSpacing>bounds[1])
+  while (gridSpacing>bounds[1]/3)
     gridSpacing/=10;
   if (bounds[2]>0)
     gridOrigin=1;
   else
     gridOrigin=0;
+  mantissa=log10(bounds[1]/3/gridSpacing);
   left=lrint((bounds[2]-gridOrigin)/gridSpacing);
   top=lrint(bounds[1]/gridSpacing);
   right=lrint((bounds[0]-gridOrigin)/gridSpacing);
   for (i=left;i<=right;i++)
+  {
+    if (i%10==0)
+      ps.setcolor(1,0,1);
+    else
+      ps.setcolor(1,mantissa,1);
     ps.line2p(complex<double>(gridOrigin+i*gridSpacing,-bounds[1]),
 	      complex<double>(gridOrigin+i*gridSpacing,bounds[1]));
+  }
   for (i=-top;i<=top;i++)
+  {
+    if (i%10==0)
+      ps.setcolor(1,0,1);
+    else
+      ps.setcolor(1,mantissa,1);
     ps.line2p(complex<double>(bounds[2],i*gridSpacing),
 	      complex<double>(bounds[0],i*gridSpacing));
+  }
 }
 
 void zoomOut()
@@ -259,6 +273,7 @@ void zoomOut()
     ps.startpage();
     ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1]);
     drawGrid(ps,bounds);
+    ps.setcolor(0,0,0);
     n=lrint(-1024/x);
     ps.startline();
     for (j=0;j<n;j++)
