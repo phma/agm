@@ -285,6 +285,43 @@ void zoomOut()
   }
 }
 
+void sweep()
+/* Draw graphs of the map of horizontal lines sweeping upward
+ * for more than one period.
+ */
+{
+  PostScript ps;
+  const int framesPerOctave=60;
+  vector<double> xcoord;
+  array<double,3> bounds;
+  double x;
+  int i,j,n;
+  for (i=0;i<framesPerOctave;i++)
+    xcoord.push_back(-32*pow(0.5,(double)i/framesPerOctave));
+  ps.open("sweep.ps");
+  ps.setpaper(papersizes["A4 landscape"],0);
+  ps.prolog();
+  bounds=zoomBounds(-1/15.);
+  for (i=-200;i<=200;i+=2)
+  {
+    ps.startpage();
+    ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1],0,true);
+    drawGrid(ps,bounds);
+    cout<<i<<"°\n";
+    ps.setcolor(0,0,0);
+    ps.startline();
+    for (j=0;;j++)
+    {
+      x=xcoord[j%framesPerOctave]/(1<<(j/framesPerOctave));
+      if (x>-1/15.)
+	break;
+      ps.lineto(khe(complex<double>(x,i*M_PI/180)));
+    }
+    ps.endline(false);
+    ps.endpage();
+  }
+}
+
 void modform1(complex<double> z)
 {
   complex<double> invz=4.*M_PI*M_PI/z;
@@ -507,6 +544,7 @@ int main(int argc,char **argv)
   cout<<"85:  "<<khe85(complex<double>(-1,-1))<<endl;
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
   zoomOut();
+  sweep();
   modform();
   return 0;
 }
