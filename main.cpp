@@ -302,7 +302,7 @@ void sweep()
   ps.setpaper(papersizes["A4 landscape"],0);
   ps.prolog();
   bounds=zoomBounds(-1/10.);
-  for (i=-200;i<=200;i+=2)
+  for (i=-200;i<=200;i+=1)
   {
     ps.startpage();
     ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1],0,true);
