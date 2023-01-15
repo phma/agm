@@ -196,7 +196,7 @@ array<double,3> zoomBounds(double x)
   double infAsymp=4*exp(x); // approaches 1
   double zeroAsymp=-M_PI/x; // measured from 0
   double khex=khe(x).real();
-  double weight=(cosh(x)-1)/(cosh(x)-1+0.5);
+  double weight=1-exp(-x*x/20);
   double inc;
   ret[0]=weight*(infAsymp+1)+(1-weight)*zeroAsymp;
   ret[1]=weight*(infAsymp)+(1-weight)*zeroAsymp/2;
