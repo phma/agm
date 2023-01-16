@@ -249,9 +249,9 @@ void drawGrid(PostScript &ps,const array<double,3> &bounds)
 }
 
 void zoomOut()
-/* Draw graphs of loops from x=-32 to -1/15 in geometric progression.
- * This is almost 9 octaves; at 30 frames per second, it should take 60 frames
- * per octave for 18 seconds.
+/* Draw graphs of loops from x=-32 to -1/128 in geometric progression.
+ * This is 12 octaves; at 30 frames per second, it should take 60 frames
+ * per octave for 24 seconds.
  */
 {
   PostScript ps;
@@ -268,7 +268,7 @@ void zoomOut()
   for (i=0;;i++)
   {
     x=xcoord[i%framesPerOctave]/(1<<(i/framesPerOctave));
-    if (x>-1/15.)
+    if (x>-1/128.)
       break;
     cout<<x<<endl;
     bounds=zoomBounds(x);
