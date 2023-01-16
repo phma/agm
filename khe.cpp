@@ -163,20 +163,34 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
  */
 {
   vector<complex<double> > ret;
-  int i,sz=loop.size();
+  int i,sz=loop.size(),innings=0;
   array<complex<double>,2> agpair;
+  vector<KheSwapStep> swapStep;
   assert(sz%2==0);
   ret.resize(sz*2);
   for (i=0;i<sz;i++)
   {
+    if (abs(loop[i])<1 && abs(loop[i-1])>=1)
+      innings++;
     agpair=invAgm1(loop[i],loop[(i+sz/2)%sz]);
-    //if (i && abs(agpair[1]-ret[i-1])==abs(agpair[0]-ret[i-1]))
-      //cout<<"=\n"; // This starts happening when the loop is expanded 11 times.
-    if (i && abs(agpair[1]-ret[i-1])+abs(agpair[0]-ret[i+sz-1])<
-	     abs(agpair[0]-ret[i-1])+abs(agpair[1]-ret[i+sz-1]))
-      swap(agpair[0],agpair[1]);
     ret[i]=agpair[0];
     ret[i+sz]=agpair[1];
+  }
+  swapStep.push_back(KheSwapStep(0,1,ret));
+  swapStep.push_back(KheSwapStep(0,-1,ret));
+  while (swapStep.size())
+  {
+    swapStep.back().step(ret);
+    swapStep.back().swap(ret);
+    sz=swapStep.size();
+    i=sz-1;
+    while (i>0 && swapStep[i].dist<swapStep[i-1].dist)
+    {
+      swap(swapStep[i],swapStep[i-1]);
+      i--;
+    }
+    if (meet(swapStep[sz-1],swapStep[sz-2]))
+      swapStep.resize(sz-2);
   }
   return ret;
 }

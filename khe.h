@@ -32,6 +32,7 @@ struct KheInterp
 class KheSwapStep
 {
 public:
+  KheSwapStep()=default;
   KheSwapStep(int n,int d,std::vector<std::complex<double> > &loop);
   void step(std::vector<std::complex<double> > &loop);
   void swap(std::vector<std::complex<double> > &loop);
