@@ -140,13 +140,29 @@ bool meet(KheSwapStep &n,KheSwapStep &s)
 
 vector<complex<double> > agmExpand(vector<complex<double> > loop)
 /* Starting angles and where they end up:
- * 0°	(1,0)
- * 45°	(0,1/4)
- * 60°	(0,0)
- * 90°	(0,1/2)
- * 120°	(-1/3,0)
- * 135°	(0,-1/4)
- * 180°	(0,0)
+ * 0°		(1,0)
+ * 15°		(0,1/12)
+ * 18°		(0,1/10)
+ * 22.5°	(0,1/8)
+ * 30°		(0,1/6)
+ * 40°		(1/9,0)
+ * 45°		(0,1/4)
+ * 54°		(0,-1/10)
+ * 60°		(0,0)
+ * 72°		(1/5,0)
+ * 75°		(0,1/12)
+ * 90°		(0,1/2)
+ * 105°		(0,-1/12)
+ * 120°		(-1/3,0)
+ * 126°		(0,-1/10)
+ * 135°		(0,-1/4)
+ * 144° 	(1/5,0)
+ * 150°		(0,1/6)
+ * 157.5°	(0,-1/8)
+ * 160°		(1/9,0)
+ * 162°		(0,1/10)
+ * 165°		(0,-1/12)
+ * 180°		(0,0)
  * Expansion, where the first is the AM, the second is the GM, and the
  * third and fourth are the results of expansion:
  * 0° (1,0), 180° (0,0) -> 0° (2,0), 180° (0,0)
@@ -175,6 +191,11 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
     agpair=invAgm1(loop[i],loop[(i+sz/2)%sz]);
     ret[i]=agpair[0];
     ret[i+sz]=agpair[1];
+  }
+  if (innings>1) // seen so far: 1, 3, 7, 13
+  {
+    swapStep.push_back(KheSwapStep(sz/2,1,ret));
+    swapStep.push_back(KheSwapStep(sz/2,-1,ret));
   }
   swapStep.push_back(KheSwapStep(0,1,ret));
   swapStep.push_back(KheSwapStep(0,-1,ret));
