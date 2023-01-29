@@ -17,6 +17,8 @@
 #include <array>
 #include <map>
 
+unsigned gcd(unsigned a,unsigned b);
+
 struct KheCachedLoop
 {
   double center;

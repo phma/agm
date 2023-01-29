@@ -91,6 +91,21 @@ map<double,vector<vector<complex<double> > > > loopCache;
  * loop having twice as many points.
  */
 
+unsigned gcd(unsigned a,unsigned b)
+{
+  while (a&&b)
+  {
+    if (a>b)
+    {
+      b^=a;
+      a^=b;
+      b^=a;
+    }
+    b%=a;
+  }
+  return a+b;
+}
+
 KheSwapStep::KheSwapStep(int n,int d,vector<complex<double> > &loop)
 /* loop[a] and loop[b] are both real, in which case loop[a] should be near
  * loop[0]/k where k is in [1,-3,5,-7,...], or loop[a] and loop[b] are
@@ -151,6 +166,7 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
  * 60°		(0,0)
  * 72°		(1/5,0)
  * 75°		(0,1/12)
+ * 80°		(1/9,0)
  * 90°		(0,1/2)
  * 105°		(0,-1/12)
  * 120°		(-1/3,0)
@@ -163,6 +179,14 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
  * 162°		(0,1/10)
  * 165°		(0,-1/12)
  * 180°		(0,0)
+ *
+ * General rule for 2πa/b, where a and b are relatively prime:
+ * b=4n+1	(1/b,0)
+ * b=4n-1	(-1/b,0)
+ * b=4n+2	(0,0)
+ * b=4n,a=4n+1	(0,2/a)
+ * b=4n,a=4n-1	(0,-2/a)
+ *
  * Expansion, where the first is the AM, the second is the GM, and the
  * third and fourth are the results of expansion:
  * 0° (1,0), 180° (0,0) -> 0° (2,0), 180° (0,0)

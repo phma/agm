@@ -322,6 +322,21 @@ void sweep()
   }
 }
 
+void fractions()
+{
+  double x=-1/128.;
+  double y;
+  int i,j;
+  for (i=1;i<20;i++)
+    for (j=0;j<i;j++)
+      if (gcd(i,j)==1)
+      {
+	cout<<j<<'/'<<i<<": ";
+	y=2*M_PI*j/i;
+	cout<<khe(complex<double>(x,y))/M_PI*-x<<endl;
+      }
+}
+
 void modform1(complex<double> z)
 {
   complex<double> invz=4.*M_PI*M_PI/z;
@@ -545,6 +560,7 @@ int main(int argc,char **argv)
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
   zoomOut();
   sweep();
+  fractions();
   modform();
   return 0;
 }
