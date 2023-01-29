@@ -84,6 +84,8 @@ const double a65[]=
 };
 #endif
 
+int mostInnings=0;
+
 map<double,vector<vector<complex<double> > > > loopCache;
 /* The key is the circle center used to make the 65-ulp loop, which loops
  * must be divided by when fetching them from cache. The value is a sequence
@@ -215,6 +217,11 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
     agpair=invAgm1(loop[i],loop[(i+sz/2)%sz]);
     ret[i]=agpair[0];
     ret[i+sz]=agpair[1];
+  }
+  if (innings>mostInnings)
+  {
+    cout<<innings<<" innings, "<<sz<<" loop size\n";
+    mostInnings=innings;
   }
   if (innings>1) // seen so far: 1, 3, 7, 13
   {
