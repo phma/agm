@@ -42,6 +42,8 @@ public:
   double dist;
   int a,b;
   int dir;
+  friend bool operator<(const KheSwapStep &a,const KheSwapStep &b);
+  friend bool operator>(const KheSwapStep &a,const KheSwapStep &b);
   friend bool meet(KheSwapStep &n,KheSwapStep &s);
 };
 

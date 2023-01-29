@@ -150,6 +150,16 @@ void KheSwapStep::swap(vector<complex<double> > &loop)
     lastDiff=loop[a]-loop[b];
 }
 
+bool operator<(const KheSwapStep &a,const KheSwapStep &b)
+{
+  return a.dist<b.dist;
+}
+
+bool operator>(const KheSwapStep &a,const KheSwapStep &b)
+{
+  return a.dist>b.dist;
+}
+
 bool meet(KheSwapStep &n,KheSwapStep &s)
 {
   return n.dir!=s.dir && (n.a==s.a || n.a==s.b);
@@ -236,7 +246,7 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
     swapStep.back().swap(ret);
     sz=swapStep.size();
     i=sz-1;
-    while (i>0 && swapStep[i].dist<swapStep[i-1].dist)
+    while (i>0 && swapStep[i]<swapStep[i-1])
     {
       swap(swapStep[i],swapStep[i-1]);
       i--;
