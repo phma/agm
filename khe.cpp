@@ -233,7 +233,7 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
     cout<<innings<<" innings, "<<sz<<" loop size\n";
     mostInnings=innings;
   }
-  if (innings>1) // seen so far: 1, 3, 7, 13
+  if (innings>1) // seen so far: 1, 3, 7, 13, 19, 29; A099957
   {
     swapStep.push_back(KheSwapStep(sz/2,1,ret));
     swapStep.push_back(KheSwapStep(sz/2,-1,ret));
