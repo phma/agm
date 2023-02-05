@@ -19,6 +19,8 @@
 #include "ldecimal.h"
 #include "ps.h"
 #include "khe.h"
+#include "relprime.h"
+#include "cogo.h"
 using namespace std;
 
 const bool inverted=false;
@@ -40,13 +42,48 @@ void printag(AgmResult ag)
   cout<<endl;
 }
 
-void plotCurve(PostScript &ps,vector<complex<double>> curve,bool closed)
+void plotCurve(PostScript &ps,vector<complex<double>> &curve,bool closed)
 {
   int i;
   ps.startline();
   for (i=0;i<curve.size();i++)
     ps.lineto(curve[i]);
   ps.endline(closed);
+}
+
+void prune(vector<complex<double>> &curve,bool closed,
+	   complex<double> center,double radius,double resolution)
+/* Remove points from curve without significantly affecting its appearance,
+ * if it'll be plotted with the given resolution in (a rectangle inscribed in)
+ * the given circle.
+ */
+{
+  int i=0,sz=curve.size(),n=sz;
+  complex<double> a,b,c;
+  while (n>=0)
+  {
+    i=(i+relprime(sz))%sz;
+    if ((i==0 || i==sz-1) && !closed)
+    {
+      n--;
+      continue;
+    }
+    a=curve[(i+sz-1)%sz];
+    b=curve[i];
+    c=curve[(i+1)%sz];
+    /* If a-b-c is nearly a straight line, remove b.
+     * Also, if lines ab, bc, and ca are all outside the circle, remove b.
+     */
+    if ((abs(a-b)+abs(b-c)-abs(c-a)<resolution && abs(pldist(b,c,a))<resolution) ||
+	(abs(pldist(center,a,b))>radius || abs(pldist(center,b,c))>radius ||
+	 abs(pldist(center,c,a))>radius))
+    {
+      curve.erase(curve.begin()+i);
+      sz=n=curve.size();
+    }
+    else
+      n--;
+  }
 }
 
 void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
@@ -273,6 +310,7 @@ void zoomOut()
   array<double,3> bounds;
   vector<complex<double>> curve;
   double x;
+  double radius;
   int i,j,n;
   for (i=0;i<framesPerOctave;i++)
     xcoord.push_back(-32*pow(0.5,(double)i/framesPerOctave));
@@ -294,6 +332,8 @@ void zoomOut()
     n=lrint(-1024/x);
     for (j=0;j<n;j++)
       curve.push_back(khe(complex<double>(x,j*2*M_PI/n)));
+    radius=hypot(bounds[1],(bounds[2]-bounds[0]/2));
+    prune(curve,true,(bounds[0]+bounds[2])/2,radius,radius/1e4);
     plotCurve(ps,curve,true);
     ps.endpage();
   }
@@ -310,6 +350,7 @@ void sweep()
   array<double,3> bounds;
   vector<complex<double>> curve;
   double x;
+  double radius;
   int i,j,n;
   for (i=0;i<framesPerOctave;i++)
     xcoord.push_back(-32*pow(0.5,(double)i/framesPerOctave));
@@ -332,6 +373,8 @@ void sweep()
 	break;
      curve.push_back(khe(complex<double>(x,i*M_PI/180)));
     }
+    radius=hypot(bounds[1],(bounds[2]-bounds[0]/2));
+    prune(curve,false,(bounds[0]+bounds[2])/2,radius,radius/1e4);
     plotCurve(ps,curve,false);
     ps.endpage();
   }
