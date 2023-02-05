@@ -8,7 +8,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 add_executable(
   agm main.cpp agm.cpp angle.cpp ps.cpp ldecimal.cpp pairwisesum.cpp khe.cpp
-  deriv4.cpp relprime.cpp
+  deriv4.cpp relprime.cpp cogo.cpp
 )
 
 # Define NO_INSTALL when compiling for fuzzing. This avoids the error
