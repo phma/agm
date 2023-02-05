@@ -40,6 +40,15 @@ void printag(AgmResult ag)
   cout<<endl;
 }
 
+void plotCurve(PostScript &ps,vector<complex<double>> curve,bool closed)
+{
+  int i;
+  ps.startline();
+  for (i=0;i<curve.size();i++)
+    ps.lineto(curve[i]);
+  ps.endline(closed);
+}
+
 void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
 {
   int i,sz=argloop.size();
@@ -262,6 +271,7 @@ void zoomOut()
   const int framesPerOctave=60;
   vector<double> xcoord;
   array<double,3> bounds;
+  vector<complex<double>> curve;
   double x;
   int i,j,n;
   for (i=0;i<framesPerOctave;i++)
@@ -276,15 +286,15 @@ void zoomOut()
       break;
     cout<<x<<endl;
     bounds=zoomBounds(x);
+    curve.clear();
     ps.startpage();
     ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1],0,true);
     drawGrid(ps,bounds);
     ps.setcolor(0,0,0);
     n=lrint(-1024/x);
-    ps.startline();
     for (j=0;j<n;j++)
-      ps.lineto(khe(complex<double>(x,j*2*M_PI/n)));
-    ps.endline(true);
+      curve.push_back(khe(complex<double>(x,j*2*M_PI/n)));
+    plotCurve(ps,curve,true);
     ps.endpage();
   }
 }
@@ -298,6 +308,7 @@ void sweep()
   const int framesPerOctave=60;
   vector<double> xcoord;
   array<double,3> bounds;
+  vector<complex<double>> curve;
   double x;
   int i,j,n;
   for (i=0;i<framesPerOctave;i++)
@@ -311,17 +322,17 @@ void sweep()
     ps.startpage();
     ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1],0,true);
     drawGrid(ps,bounds);
+    curve.clear();
     cout<<i<<"°\n";
     ps.setcolor(0,0,0);
-    ps.startline();
     for (j=0;;j++)
     {
       x=xcoord[j%framesPerOctave]/(1<<(j/framesPerOctave));
       if (x>-1/15.)
 	break;
-      ps.lineto(khe(complex<double>(x,i*M_PI/180)));
+     curve.push_back(khe(complex<double>(x,i*M_PI/180)));
     }
-    ps.endline(false);
+    plotCurve(ps,curve,false);
     ps.endpage();
   }
 }
