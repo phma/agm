@@ -135,6 +135,10 @@ void outMismatch(const vector<complex<double> > &prevLoop,const vector<complex<d
 }
 
 void plotSquare(PostScript &ps,Khe f,complex<double> cen,complex<double> h)
+/* Plot the values of խ(z) for z being lattice points of a small square.
+ * Since խ(z) is analytic, the plot should look like a square, unless the
+ * derivative is zero. This is a visual check for the accuracy of computation.
+ */
 {
   complex<double> fcen;
   vector<complex<double> > values;
