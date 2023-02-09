@@ -90,6 +90,7 @@ void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
 {
   int i,sz=argloop.size();
   vector<int> mismatch,mismatchse;
+  vector<complex<double>> curve;
   double minlog=0,maxlog=0,minarg=0,maxarg=0,maxx;
   assert(logloop.size()==argloop.size());
   for (i=0;i<sz;i++)
@@ -132,17 +133,19 @@ void plotLogArg(PostScript &ps,vector<double> &logloop,vector<double> &argloop)
     ps.endline(true);
   }
   ps.setcolor(0,0,1);
-  ps.startline();
+  curve.clear();
   for (i=0;i<sz;i++)
-    ps.lineto(complex<double>(khe.xt(i)/maxx*3,(logloop[i]-minlog)/(maxlog-minlog)));
-  ps.lineto(complex<double>(3,(logloop[0]-minlog)/(maxlog-minlog)));
-  ps.endline();
+    curve.push_back(complex<double>(khe.xt(i)/maxx*3,(logloop[i]-minlog)/(maxlog-minlog)));
+  curve.push_back(complex<double>(3,(logloop[0]-minlog)/(maxlog-minlog)));
+  prune(curve,false,2,3.2,1e-4);
+  plotCurve(ps,curve,false);
   ps.setcolor(1,0,0);
-  ps.startline();
+  curve.clear();
   for (i=0;i<sz;i++)
-    ps.lineto(complex<double>(khe.xt(i)/maxx*3,(argloop[i]-maxarg)/(maxarg-minarg)));
-  ps.lineto(complex<double>(3,(argloop[0]-maxarg)/(maxarg-minarg)));
-  ps.endline();
+    curve.push_back(complex<double>(khe.xt(i)/maxx*3,(argloop[i]-maxarg)/(maxarg-minarg)));
+  curve.push_back(complex<double>(3,(argloop[0]-maxarg)/(maxarg-minarg)));
+  prune(curve,false,2,3.2,1e-4);
+  plotCurve(ps,curve,false);
   ps.endpage();
 }
 
