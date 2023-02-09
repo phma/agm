@@ -274,6 +274,10 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
   {
     swapStep.push_back(new KheSwapStep(sz/2,1,ret));
     swapStep.push_back(new KheSwapStep(sz/2,-1,ret));
+    //swapStep.push_back(new KheSwapStep(2*sz/3,1,ret));
+    //swapStep.push_back(new KheSwapStep(2*sz/3,-1,ret));
+    //swapStep.push_back(new KheSwapStep(4*sz/3,1,ret));
+    //swapStep.push_back(new KheSwapStep(4*sz/3,-1,ret));
   }
   swapStep.push_back(new KheSwapStep(0,1,ret));
   swapStep.push_back(new KheSwapStep(0,-1,ret));
