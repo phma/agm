@@ -120,6 +120,7 @@ KheSwapStep::KheSwapStep(int n,int d,vector<complex<double> > &loop)
   dir=(d<0)?-1:1;
   realness=fabs(real(loop[a]))+fabs(real(loop[b]));
   imagness=fabs(imag(loop[a]))+fabs(imag(loop[b]));
+  assert(realness>imagness);
   if ((realness>imagness && abs(loop[b])>abs(loop[a])) ||
       (imagness>realness && imag(loop[b])>imag(loop[a])))
     ::swap(loop[a],loop[b]);
