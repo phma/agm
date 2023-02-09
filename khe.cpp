@@ -122,7 +122,7 @@ KheSwapStep::KheSwapStep(int n,int d,vector<complex<double> > &loop)
   imagness=fabs(imag(loop[a]))+fabs(imag(loop[b]));
   if ((realness>imagness && abs(loop[b])>abs(loop[a])) ||
       (imagness>realness && imag(loop[b])>imag(loop[a])))
-    ::swap(a,b);
+    ::swap(loop[a],loop[b]);
   dist=abs(loop[a]-loop[b]);
   lastDiff=loop[a]-loop[b];
 }
@@ -274,10 +274,10 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
   {
     swapStep.push_back(new KheSwapStep(sz/2,1,ret));
     swapStep.push_back(new KheSwapStep(sz/2,-1,ret));
-    //swapStep.push_back(new KheSwapStep(2*sz/3,1,ret));
-    //swapStep.push_back(new KheSwapStep(2*sz/3,-1,ret));
-    //swapStep.push_back(new KheSwapStep(4*sz/3,1,ret));
-    //swapStep.push_back(new KheSwapStep(4*sz/3,-1,ret));
+    swapStep.push_back(new KheSwapStep(2*sz/3,1,ret));
+    swapStep.push_back(new KheSwapStep(2*sz/3,-1,ret));
+    swapStep.push_back(new KheSwapStep(4*sz/3,1,ret));
+    swapStep.push_back(new KheSwapStep(4*sz/3,-1,ret));
   }
   swapStep.push_back(new KheSwapStep(0,1,ret));
   swapStep.push_back(new KheSwapStep(0,-1,ret));
