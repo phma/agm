@@ -290,8 +290,11 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
       swap(swapStep[i],swapStep[i-1]);
       i--;
     }
-    if (meet(*swapStep[sz-1],*swapStep[sz-2]))
+    if (meet(*swapStep[sz-1],*swapStep[sz-1]->partner))
     {
+      for (i=0;i<sz-2;i++)
+	if (swapStep[i]==swapStep[sz-1]->partner)
+	  swap(swapStep[i],swapStep[i+1]);
       delete swapStep[sz-1];
       delete swapStep[sz-2];
       swapStep.resize(sz-2);
