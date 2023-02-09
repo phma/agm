@@ -481,7 +481,7 @@ int main(int argc,char **argv)
     ps.dot(lattice[i]);
   }
   ps.endpage();
-  loops.resize(12);
+  loops.resize(13);
   hi=-12;
   lo=-24;
   mid=-16;
@@ -545,7 +545,7 @@ int main(int argc,char **argv)
     cout<<"Relative error at "<<mid/1.5/(1<<i)<<" is "<<
 	  ldecimal(relativeError(mid/1.5/(1<<i)))<<endl;
   }
-  for (i=0;i<12;i++)
+  for (i=0;i<13;i++)
   {
     loops[i]=khe.getLoop(-33./(1<<i));
     ps.startpage();
