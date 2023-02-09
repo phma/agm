@@ -202,7 +202,7 @@ void sortSteppers(vector<KheSwapStep *> &swapStep)
     }
 }
 
-vector<complex<double> > agmExpand(vector<complex<double> > loop)
+vector<complex<double> > agmExpand(vector<complex<double>> loop,double center)
 /* Starting angles and where they end up:
  * 0°		(1,0)
  * 15°		(0,1/12)
@@ -252,14 +252,15 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
  */
 {
   vector<complex<double> > ret;
-  int i,sz=loop.size(),innings=0;
+  vector<int> fractInx;
+  int i,j,sz=loop.size(),innings=0;
   array<complex<double>,2> agpair;
   vector<KheSwapStep *> swapStep;
   assert(sz%2==0);
   ret.resize(sz*2);
   for (i=0;i<sz;i++)
   {
-    if (abs(loop[i])<1 && abs(loop[i-1])>=1)
+    if (abs(loop[i])<center && abs(loop[i-1])>=center)
       innings++;
     agpair=invAgm1(loop[i],loop[(i+sz/2)%sz]);
     ret[i]=agpair[0];
@@ -270,7 +271,7 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
     cout<<innings<<" innings, "<<sz<<" loop size\n";
     mostInnings=innings;
   }
-  if (innings>1) // seen so far: 1, 3, 7, 13, 19, 29; A099957
+  /*if (innings>1) // seen so far: 1, 3, 7, 13, 19, 29; A099957
   {
     swapStep.push_back(new KheSwapStep(sz/2,1,ret));
     swapStep.push_back(new KheSwapStep(sz/2,-1,ret));
@@ -280,7 +281,22 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
     swapStep.push_back(new KheSwapStep(4*sz/3,-1,ret));
   }
   swapStep.push_back(new KheSwapStep(0,1,ret));
-  swapStep.push_back(new KheSwapStep(0,-1,ret));
+  swapStep.push_back(new KheSwapStep(0,-1,ret));*/
+  for (i=1;;i+=2)
+  {
+    fractInx.clear();
+    for (j=0;j<i;j++)
+      if (gcd(i,j)==1)
+	fractInx.push_back(lrint(2.*j*sz/i));
+    if (swapStep.size()/2+fractInx.size()<=innings)
+      for (j=0;j<fractInx.size();j++)
+      {
+	swapStep.push_back(new KheSwapStep(fractInx[j],1,ret));
+	swapStep.push_back(new KheSwapStep(fractInx[j],-1,ret));
+      }
+    else
+      break;
+  }
   findMeeters(swapStep);
   sortSteppers(swapStep);
   while (swapStep.size())
@@ -421,7 +437,7 @@ KheCachedLoop Khe::_getLoop(double x)
     if (!loopCache.count(center))
       loopCache[center].push_back(tinyCircle(center));
     while (loopCache[center].size()-1<nExpand)
-      loopCache[center].push_back(agmExpand(loopCache[center].back()));
+      loopCache[center].push_back(agmExpand(loopCache[center].back(),center));
     ret.loop=&loopCache[center][nExpand];
     ret.center=center;
   }
