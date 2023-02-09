@@ -217,7 +217,7 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
   vector<complex<double> > ret;
   int i,sz=loop.size(),innings=0;
   array<complex<double>,2> agpair;
-  vector<KheSwapStep> swapStep;
+  vector<KheSwapStep *> swapStep;
   assert(sz%2==0);
   ret.resize(sz*2);
   for (i=0;i<sz;i++)
@@ -235,24 +235,28 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
   }
   if (innings>1) // seen so far: 1, 3, 7, 13, 19, 29; A099957
   {
-    swapStep.push_back(KheSwapStep(sz/2,1,ret));
-    swapStep.push_back(KheSwapStep(sz/2,-1,ret));
+    swapStep.push_back(new KheSwapStep(sz/2,1,ret));
+    swapStep.push_back(new KheSwapStep(sz/2,-1,ret));
   }
-  swapStep.push_back(KheSwapStep(0,1,ret));
-  swapStep.push_back(KheSwapStep(0,-1,ret));
+  swapStep.push_back(new KheSwapStep(0,1,ret));
+  swapStep.push_back(new KheSwapStep(0,-1,ret));
   while (swapStep.size())
   {
-    swapStep.back().step(ret);
-    swapStep.back().swap(ret);
+    swapStep.back()->step(ret);
+    swapStep.back()->swap(ret);
     sz=swapStep.size();
     i=sz-1;
-    while (i>0 && swapStep[i]<swapStep[i-1])
+    while (i>0 && *swapStep[i]<*swapStep[i-1])
     {
       swap(swapStep[i],swapStep[i-1]);
       i--;
     }
-    if (meet(swapStep[sz-1],swapStep[sz-2]))
+    if (meet(*swapStep[sz-1],*swapStep[sz-2]))
+    {
+      delete swapStep[sz-1];
+      delete swapStep[sz-2];
       swapStep.resize(sz-2);
+    }
   }
   return ret;
 }

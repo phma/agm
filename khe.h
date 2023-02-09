@@ -40,6 +40,7 @@ public:
   void swap(std::vector<std::complex<double> > &loop);
   std::complex<double> lastDiff;
   double dist;
+  KheSwapStep *partner;
   int a,b;
   int dir;
   friend bool operator<(const KheSwapStep &a,const KheSwapStep &b);
