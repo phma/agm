@@ -332,7 +332,7 @@ void zoomOut()
     n=lrint(-1024/x);
     for (j=0;j<n;j++)
       curve.push_back(khe(complex<double>(x,j*2*M_PI/n)));
-    radius=hypot(bounds[1],(bounds[2]-bounds[0]/2));
+    radius=hypot(bounds[1],(bounds[2]-bounds[0])/2);
     prune(curve,true,(bounds[0]+bounds[2])/2,radius,radius/1e4);
     plotCurve(ps,curve,true);
     ps.endpage();
