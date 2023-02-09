@@ -165,6 +165,43 @@ bool meet(KheSwapStep &n,KheSwapStep &s)
   return n.dir!=s.dir && (n.a==s.a || n.a==s.b);
 }
 
+void findMeeters(vector<KheSwapStep *> &swapStep)
+/* Arrange the steppers in order of a or b, whichever is less, except that
+ * the stepper with a=0 going backward is placed at the end. This puts
+ * steppers that will meet in pairs. A quadratic sort is fast enough, as
+ * the loop is much bigger than the set of steppers;
+ */
+{
+  int i,j,a0,a1,sz=swapStep.size();
+  for (i=0;i<sz-1;i++)
+    for (j=0;j<sz-1;j++)
+    {
+      a0=swapStep[j]->a;
+      if (a0>swapStep[j]->b || (a0==0 && swapStep[j]->dir<0))
+	a0=swapStep[j]->b;
+      a1=swapStep[j+1]->a;
+      if (a1>swapStep[j+1]->b || (a1==0 && swapStep[j+1]->dir<0))
+	a1=swapStep[j+1]->b;
+      if (a0>a1 || (a0==a1 && swapStep[j]->dir>swapStep[j+1]->dir))
+	swap(swapStep[j],swapStep[j+1]);
+    }
+  for (i=0;i<sz;i++)
+    swapStep[i]->partner=swapStep[i^1];
+}
+
+void sortSteppers(vector<KheSwapStep *> &swapStep)
+/* Arrange the steppers in order of increasing distance.
+ */
+{
+  int i,j,sz=swapStep.size();
+  for (i=0;i<sz-1;i++)
+    for (j=0;j<sz-1;j++)
+    {
+      if (*swapStep[j]>*swapStep[j+1])
+	swap(swapStep[j],swapStep[j+1]);
+    }
+}
+
 vector<complex<double> > agmExpand(vector<complex<double> > loop)
 /* Starting angles and where they end up:
  * 0°		(1,0)
@@ -240,6 +277,8 @@ vector<complex<double> > agmExpand(vector<complex<double> > loop)
   }
   swapStep.push_back(new KheSwapStep(0,1,ret));
   swapStep.push_back(new KheSwapStep(0,-1,ret));
+  findMeeters(swapStep);
+  sortSteppers(swapStep);
   while (swapStep.size())
   {
     swapStep.back()->step(ret);
