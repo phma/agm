@@ -607,6 +607,7 @@ int main(int argc,char **argv)
   plotSquare(ps,khe,complex<double>(-16.974354,0.),0.002);
   plotSquare(ps,khe,complex<double>(-16.974354,0.1),0.002);
   plotSquare(ps,khe,complex<double>(-16.974354,0.),0.000001);
+  plotSquare(ps,khe,complex<double>(-0.50425,1.08605),0.0001);
   for (i=0;i<3;i++)
   {
     diam[i]=avgRadius(loops[i]);
