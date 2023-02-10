@@ -325,7 +325,7 @@ void zoomOut()
     x=xcoord[i%framesPerOctave]/(1<<(i/framesPerOctave));
     if (x>-1/128.)
       break;
-    cout<<x<<endl;
+    //cout<<x<<endl;
     bounds=zoomBounds(x);
     curve.clear();
     ps.startpage();
@@ -367,7 +367,7 @@ void sweep()
     ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1],0,true);
     drawGrid(ps,bounds);
     curve.clear();
-    cout<<i<<"°\n";
+    //cout<<i<<"°\n";
     ps.setcolor(0,0,0);
     for (j=0;;j++)
     {
@@ -623,8 +623,8 @@ int main(int argc,char **argv)
   cout<<"65:  "<<khe(complex<double>(-1,-1))<<endl;
   cout<<"85:  "<<khe85(complex<double>(-1,-1))<<endl;
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
-  //zoomOut();
-  //sweep();
+  zoomOut();
+  sweep();
   fractions();
   modform();
   return 0;
