@@ -345,15 +345,19 @@ vector<double> vecLog(vector<complex<double> > loop)
 }
 
 vector<double> vecArg(vector<complex<double> > loop)
+/* last2a is an attempt to follow the loop near -1/128, in which some steps
+ * are bigger than 180°. It didn't work.
+ */
 {
   vector<double> ret;
-  double a,lasta=0;
+  double a,lasta=0,last2a=0;
   int i;
   for (i=0;i<loop.size();i++)
   {
     a=arg(loop[i]);
     a+=2*M_PI*rint((lasta-a)/2/M_PI);
     ret.push_back(a);
+    last2a=lasta;
     lasta=a;
   }
   return ret;

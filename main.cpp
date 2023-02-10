@@ -481,7 +481,7 @@ int main(int argc,char **argv)
     ps.dot(lattice[i]);
   }
   ps.endpage();
-  loops.resize(13);
+  loops.resize(12);
   hi=-12;
   lo=-24;
   mid=-16;
@@ -545,7 +545,11 @@ int main(int argc,char **argv)
     cout<<"Relative error at "<<mid/1.5/(1<<i)<<" is "<<
 	  ldecimal(relativeError(mid/1.5/(1<<i)))<<endl;
   }
-  for (i=0;i<13;i++)
+  for (i=0;i<12;i++)
+  /* When i=12, the loop winds around 0 at πi so fast that vecArg cannot
+   * keep up, resulting in 3 of every 9 steps losing a turn, for a total
+   * of 48 turns.
+   */
   {
     loops[i]=khe.getLoop(-33./(1<<i));
     ps.startpage();
