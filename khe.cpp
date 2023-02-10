@@ -269,7 +269,7 @@ vector<complex<double> > agmExpand(vector<complex<double>> loop,double center)
   }
   if (innings>mostInnings)
   {
-    cout<<innings<<" innings, "<<sz<<" loop size\n";
+    //cout<<innings<<" innings, "<<sz<<" loop size\n";
     mostInnings=innings;
   }
   /* The number of innings is 1, 3, 7, 13, 19, 29, ... (A099957).
