@@ -272,17 +272,12 @@ vector<complex<double> > agmExpand(vector<complex<double>> loop,double center)
     cout<<innings<<" innings, "<<sz<<" loop size\n";
     mostInnings=innings;
   }
-  /*if (innings>1) // seen so far: 1, 3, 7, 13, 19, 29; A099957
-  {
-    swapStep.push_back(new KheSwapStep(sz/2,1,ret));
-    swapStep.push_back(new KheSwapStep(sz/2,-1,ret));
-    swapStep.push_back(new KheSwapStep(2*sz/3,1,ret));
-    swapStep.push_back(new KheSwapStep(2*sz/3,-1,ret));
-    swapStep.push_back(new KheSwapStep(4*sz/3,1,ret));
-    swapStep.push_back(new KheSwapStep(4*sz/3,-1,ret));
-  }
-  swapStep.push_back(new KheSwapStep(0,1,ret));
-  swapStep.push_back(new KheSwapStep(0,-1,ret));*/
+  /* The number of innings is 1, 3, 7, 13, 19, 29, ... (A099957).
+   * The real arcs appear in the order 1/1, -1/3, 1/5, ..., each traced
+   * as many times as the totient of the denominator. For each real arc,
+   * there is an inning opposite to it. So place steppers on each tracing
+   * of a real arc, and place as many pairs of steppers as there are innings.
+   */
   for (i=1;;i+=2)
   {
     fractInx.clear();
