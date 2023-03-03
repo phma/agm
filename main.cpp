@@ -624,8 +624,8 @@ int main(int argc,char **argv)
   cout<<"65:  "<<khe(complex<double>(-1,-1))<<endl;
   cout<<"85:  "<<khe85(complex<double>(-1,-1))<<endl;
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
-  zoomOut();
-  sweep();
+  //zoomOut();
+  //sweep();
   fractions();
   modform();
   return 0;
