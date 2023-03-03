@@ -23,6 +23,25 @@ Color::Color()
   r=g=b=0;
 }
 
+string Color::ppm()
+{
+  string ret("rgb");
+  double r8,g8,b8;
+  r8=trunc(r*256);
+  g8=trunc(g*256);
+  b8=trunc(b*256);
+  if (r8>255)
+    r8=255;
+  if (g8>255)
+    g8=255;
+  if (b8>255)
+    b8=255;
+  ret[0]=r8;
+  ret[1]=g8;
+  ret[2]=b8;
+  return ret;
+}
+
 void Color::mix(const Color &diluent,double part)
 {
   r=(r*(1-part)+diluent.r*part);

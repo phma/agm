@@ -13,6 +13,7 @@ class ContourInterval;
 #include <cmath>
 #include <complex>
 #include <algorithm>
+#include <string>
 
 #define CS_HV 0
 
@@ -45,6 +46,7 @@ public:
   {
     return std::min(255,(int)floor(255*b));
   }
+  std::string ppm();
   void mix(const Color &diluent,double part);
 private:
   double r,g,b;
