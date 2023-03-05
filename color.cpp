@@ -110,3 +110,24 @@ int Colorize::getScheme()
 {
   return scheme;
 }
+
+Color Colorize::operator()(complex<double> z)
+{
+  double a=arg(z);
+  double r=abs(z);
+  double cp,bright,chroma;
+  if (r==0)
+    cp=low;
+  else if (isnan(r))
+    cp=(low+high)/2;
+  else
+    cp=log(compand(r));
+  bright=(cp-low)/(high-low);
+  if (isnan(r))
+    chroma=0;
+  else
+    chroma=bright*(1-bright);
+  return Color(bright+chroma*cos(a),
+	       bright+chroma*cos(a+2*M_PI/3),
+	       bright+chroma*cos(a-2*M_PI/3));
+}
