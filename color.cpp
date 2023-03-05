@@ -115,7 +115,7 @@ Color Colorize::operator()(complex<double> z)
 {
   double a=arg(z);
   double r=abs(z);
-  double cp,bright,chroma;
+  double cp,bright,chroma,octave,modOctave;
   if (r==0)
     cp=low;
   else if (isnan(r))
@@ -123,10 +123,12 @@ Color Colorize::operator()(complex<double> z)
   else
     cp=log(compand(r));
   bright=(cp-low)/(high-low);
+  octave=log(r)/log(2);
+  modOctave=octave-floor(octave);
   if (isnan(r))
     chroma=0;
   else
-    chroma=bright*(1-bright);
+    chroma=bright*(1-bright)*(1-modOctave/3);
   return Color(bright+chroma*cos(a),
 	       bright+chroma*cos(a+2*M_PI/3),
 	       bright+chroma*cos(a-2*M_PI/3));
