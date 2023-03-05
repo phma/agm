@@ -22,6 +22,7 @@
 #include "relprime.h"
 #include "cogo.h"
 #include "color.h"
+#include "raster.h"
 using namespace std;
 
 const bool inverted=false;
@@ -627,6 +628,7 @@ int main(int argc,char **argv)
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
   //zoomOut();
   //sweep();
+  rasterplot(khe,250,250,"khe.ppm");
   fractions();
   modform();
   cout<<compand(1e-100)<<' '<<compand(100)<<endl;
