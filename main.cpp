@@ -21,6 +21,7 @@
 #include "khe.h"
 #include "relprime.h"
 #include "cogo.h"
+#include "color.h"
 using namespace std;
 
 const bool inverted=false;
@@ -628,5 +629,6 @@ int main(int argc,char **argv)
   //sweep();
   fractions();
   modform();
+  cout<<compand(1e-100)<<' '<<compand(100)<<endl;
   return 0;
 }

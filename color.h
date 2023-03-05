@@ -17,6 +17,8 @@ class ContourInterval;
 
 #define CS_HV 0
 
+double compand(double mag);
+
 class Color
 {
 public:

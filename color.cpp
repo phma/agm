@@ -11,6 +11,31 @@
 #include "color.h"
 using namespace std;
 
+double compand(double mag)
+/* խ(z) has two types of singularities on the imaginary axis. At 0, it
+ * approaches ∞ like -π/z, but at πi, it approaches 0 somewhat like exp(1/(z-πi)).
+ * If not companded, this would make the region near πi all black, obscuring
+ * the detail. The companding function is the reciprocal of the Lambert W
+ * function of the reciprocal.
+ */
+{
+  double ret,pexp,corr=1;
+  int i=0;
+  mag=1/mag;
+  if (mag>2)
+    ret=log(mag);
+  else
+    ret=mag;
+  while (i<100 && fabs(corr)>1e-15)
+  {
+    pexp=ret*exp(ret);
+    corr=(pexp-mag)/(ret+1)/exp(ret);
+    ret-=corr;
+    i++;
+  }
+  return 1/ret;
+}
+
 Color::Color(double red,double green,double blue)
 {
   r=min(1.,max(0.,red));
