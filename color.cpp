@@ -23,8 +23,8 @@ double compand(double mag)
   double ret,pexp,corr=1;
   int i=0;
   mag=1/mag;
-  if (mag>2)
-    ret=log(mag);
+  if (mag>3)
+    ret=log(mag)-log(log(mag));
   else
     ret=mag;
   while (i<100 && fabs(corr)>1e-15)

@@ -628,7 +628,7 @@ int main(int argc,char **argv)
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
   //zoomOut();
   //sweep();
-  rasterplot(khe,250,250,"khe.ppm");
+  rasterplot(khe,500,500,"khe.ppm");
   fractions();
   modform();
   cout<<compand(1e-100)<<' '<<compand(100)<<endl;
