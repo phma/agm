@@ -130,6 +130,6 @@ Color Colorize::operator()(complex<double> z)
   else
     chroma=bright*(1-bright)*(1-modOctave/3);
   return Color(bright+chroma*cos(a),
-	       bright+chroma*cos(a+2*M_PI/3),
-	       bright+chroma*cos(a-2*M_PI/3));
+	       bright+chroma*cos(a-2*M_PI/3),
+	       bright+chroma*cos(a+2*M_PI/3));
 }
