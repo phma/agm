@@ -8,6 +8,7 @@
  * This file is part of AGM.
  */
 
+#include <cfloat>
 #include "color.h"
 using namespace std;
 
@@ -84,9 +85,15 @@ Colorize::Colorize()
 }
 
 void Colorize::setLimits(double l,double h)
+/* l and h are the minimum and maximum absolute values of the khe function
+ * in the area being plotted, truncated to the rightmost line of dots. If l
+ * is 0, it is replaced with the smallest positive number.
+ */
 {
-  low=l;
-  high=h;
+  if (l<DBL_MIN)
+    l=DBL_MIN;
+  low=log(compand(l));
+  high=log(compand(h));
 }
 
 void Colorize::setOrientation(int o)
