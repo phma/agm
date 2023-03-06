@@ -119,7 +119,10 @@ Color Colorize::operator()(complex<double> z)
   if (r==0)
     cp=low;
   else if (isnan(r))
+  {
     cp=(low+high)/2;
+    a=0; // was NaN
+  }
   else
     cp=log(compand(r));
   bright=(cp-low)/(high-low);
