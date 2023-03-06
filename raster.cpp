@@ -55,12 +55,23 @@ void rasterplot(Khe &khe,int width,int height,string filename)
  * by width and height, the pixels being square.
  */
 {
-  int i,j,k;
+  int i,j,m,n;
   Color pixel;
   Colorize col;
   complex<double> pnt,z;
   double scale;
+  FordCircle circle;
+  vector<FordCircle> circles;
   char letter;
+  for (i=1;i*i*25<height;i++)
+    for (j=-i;j<=i;j++)
+      if (gcd(i,abs(j))==1)
+      {
+	circle.y=M_PI*j/i;
+	circle.radius=M_PI/i/i/2;
+	// TODO compute residue
+	circles.push_back(circle);
+      }
   ropen(filename);
   if (width<0 || height<=0)
     throw(range_error("rasterdraw: paper size must be nonnegative"));
@@ -72,6 +83,12 @@ void rasterplot(Khe &khe,int width,int height,string filename)
     {
       pnt=complex<double>((j-width+0.5)*scale,(height/2.-i-0.5)*scale);
       z=khe(pnt);
+      for (m=0;m<circles.size();m++)
+	if (circles[m].in(pnt))
+	{
+	  if (circles[m].farIn(pnt)<scale)
+	    z=complex<double>(NAN,NAN);
+	}
       pixel=col(z);
       rfile<<pixel.ppm();
     }
