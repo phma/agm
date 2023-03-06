@@ -18,6 +18,21 @@
 using namespace std;
 fstream rfile;
 
+complex<double> FordCircle::pole(complex<double> z)
+{
+  return residue/(z-y);
+}
+
+bool FordCircle::in(complex<double> z)
+{
+  return abs(z-complex<double>(-radius,y))<=radius;
+}
+
+double FordCircle::farIn(complex<double> z)
+{
+  return radius-abs(z-complex<double>(-radius,y));
+}
+
 void ropen(string fname)
 {
   if (fname=="")
