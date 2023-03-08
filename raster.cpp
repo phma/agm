@@ -58,7 +58,7 @@ void rasterplot(Khe &khe,int width,int height,string filename)
   int i,j,m,a,b;
   Color pixel;
   Colorize col;
-  complex<double> pnt,z;
+  complex<double> pnt,z,p;
   double scale;
   FordCircle circle;
   vector<FordCircle> circles;
@@ -115,7 +115,11 @@ void rasterplot(Khe &khe,int width,int height,string filename)
 	  if (circles[m].farIn(pnt)<scale)
 	    z=complex<double>(NAN,NAN);
 	  else if (abs(circles[m].residue))
-	    z=circles[m].pole(pnt);
+	  {
+	    p=circles[m].pole(pnt);
+	    if (abs(z-p)<abs(p)/10)
+	      z=p;
+	  }
 	}
       pixel=col(z);
       rfile<<pixel.ppm();
