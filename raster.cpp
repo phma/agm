@@ -20,7 +20,7 @@ fstream rfile;
 
 complex<double> FordCircle::pole(complex<double> z)
 {
-  return residue/(z-y);
+  return residue/(z-complex<double>(0,y));
 }
 
 bool FordCircle::in(complex<double> z)
@@ -55,7 +55,7 @@ void rasterplot(Khe &khe,int width,int height,string filename)
  * by width and height, the pixels being square.
  */
 {
-  int i,j,m,n;
+  int i,j,m,a,b;
   Color pixel;
   Colorize col;
   complex<double> pnt,z;
@@ -69,7 +69,33 @@ void rasterplot(Khe &khe,int width,int height,string filename)
       {
 	circle.y=M_PI*j/i;
 	circle.radius=M_PI/i/i/2;
-	// TODO compute residue
+	/* The size of the circle, which determines the singularity's area
+	 * of influence, depends on j/i in lowest terms, but the type of
+	 * singularity depends on j/2i in lowest terms. See the comment in
+	 * agmExpand.
+	 */
+	if (j&1)
+	{
+	  b=2*i;
+	  a=j;
+	}
+	else
+	{
+	  b=i;
+	  a=j/2;
+	}
+	if (b&1) // real pole
+	  if (b&2)
+	    circle.residue=M_PI/b;
+	  else
+	    circle.residue=-M_PI/b;
+	if ((b&3)==2) // essential singularity
+	  circle.residue=0;
+	if ((b&3)==0) // imaginary pole
+	  if (a&2)
+	    circle.residue=complex<double>(0,2*M_PI/b);
+	  else
+	    circle.residue=complex<double>(0,-2*M_PI/b);
 	circles.push_back(circle);
       }
   ropen(filename);
@@ -88,6 +114,8 @@ void rasterplot(Khe &khe,int width,int height,string filename)
 	{
 	  if (circles[m].farIn(pnt)<scale)
 	    z=complex<double>(NAN,NAN);
+	  else if (abs(circles[m].residue))
+	    z=circles[m].pole(pnt);
 	}
       pixel=col(z);
       rfile<<pixel.ppm();

@@ -234,8 +234,8 @@ vector<complex<double> > agmExpand(vector<complex<double>> loop,double center)
  * b=4n+1	(1/b,0)
  * b=4n-1	(-1/b,0)
  * b=4n+2	(0,0)
- * b=4n,a=4n+1	(0,2/a)
- * b=4n,a=4n-1	(0,-2/a)
+ * b=4n,a=4n+1	(0,2/b)
+ * b=4n,a=4n-1	(0,-2/b)
  *
  * Expansion, where the first is the AM, the second is the GM, and the
  * third and fourth are the results of expansion:
