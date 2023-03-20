@@ -3,7 +3,7 @@
 /* ldecimal.cpp - lossless decimal representation     */
 /*                                                    */
 /******************************************************/
-/* Copyright 2015,2017,2019,2020 Pierre Abbat.
+/* Copyright 2015,2017,2019,2020,2023 Pierre Abbat.
  * Licensed under the Apache License, Version 2.0.
  * This file is part of AGM.
  */
@@ -43,6 +43,8 @@ string ldecimal(double x,double toler,bool noexp)
   }
   else
     iexp=DBL_DIG-1;
+  if (iexp>DBL_DIG)
+    iexp=DBL_DIG+1;
   h=-1;
   i=iexp;
   while (true)
