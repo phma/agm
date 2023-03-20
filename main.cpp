@@ -344,6 +344,50 @@ void zoomOut()
   }
 }
 
+void zoomIn()
+/* Draw graphs of the loop at -1/128, starting at the whole view and ending
+ * at the inner windings of the spool.
+ * This is 12 octaves; at 30 frames per second, it should take 60 frames
+ * per octave for 24 seconds.
+ */
+{
+  PostScript ps;
+  const int framesPerOctave=12;
+  array<double,3> bounds;
+  vector<complex<double>> curve,prunedCurve;
+  double x=-1./16;
+  double radius,max,min,startWidth,width;
+  int i,j,n;
+  for (j=0;j<131072;j++)
+    curve.push_back(khe(complex<double>(x,j*2*M_PI/131072)));
+  max=abs(curve[0]);
+  min=abs(curve[curve.size()/2]);
+  for (startWidth=1;startWidth<max/2;startWidth*=2);
+  for (;startWidth<max;startWidth*=pow(2,1./framesPerOctave));
+  ps.open("zoomin.ps");
+  ps.setpaper(papersizes["A4 landscape"],0);
+  ps.prolog();
+  for (i=0;;i++)
+  {
+    width=startWidth*pow(0.5,(double)i/framesPerOctave);
+    if (width<min)
+      break;
+    cout<<width<<endl;
+    bounds[0]=width;
+    bounds[1]=width*3/4;
+    bounds[2]=-width;
+    ps.startpage();
+    ps.setscale(bounds[2],-bounds[1],bounds[0],bounds[1],0,true);
+    drawGrid(ps,bounds);
+    ps.setcolor(0,0,0);
+    radius=hypot(bounds[1],(bounds[2]-bounds[0])/2);
+    prunedCurve=curve;
+    prune(prunedCurve,true,(bounds[0]+bounds[2])/2,radius,radius/1e4);
+    plotCurve(ps,prunedCurve,true);
+    ps.endpage();
+  }
+}
+
 void sweep()
 /* Draw graphs of the map of horizontal lines sweeping upward
  * for more than one period.
@@ -628,7 +672,8 @@ int main(int argc,char **argv)
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
   //zoomOut();
   //sweep();
-  rasterplot(khe,2000,2000,"khe.ppm");
+  zoomIn();
+  //rasterplot(khe,2000,2000,"khe.ppm");
   fractions();
   modform();
   cout<<compand(1e-100)<<' '<<compand(100)<<endl;
