@@ -84,7 +84,13 @@ void prune(vector<complex<double>> &curve,bool closed,
       sz=n=curve.size();
     }
     else
+    {
       n--;
+      if (abs(a-center)>10*radius && // Don't leave points so far out
+	  abs(b-center)>10*radius && // that PostScript makes overflow
+	  abs(c-center)>10*radius)   // errors plotting them.
+	curve[i]=(curve[i]+center)/2.;
+    }
   }
 }
 
