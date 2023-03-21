@@ -357,9 +357,9 @@ void zoomIn()
   vector<complex<double>> curve,prunedCurve;
   double x=-1./16;
   double radius,max,min,startWidth,width;
-  int i,j,n;
-  for (j=0;j<131072;j++)
-    curve.push_back(khe(complex<double>(x,j*2*M_PI/131072)));
+  int i,j,n=16384; //49152
+  for (j=0;j<n;j++)
+    curve.push_back(khe(complex<double>(x,j*2*M_PI/n)));
   max=abs(curve[0]);
   min=abs(curve[curve.size()/2]);
   for (startWidth=1;startWidth<max/2;startWidth*=2);
