@@ -77,19 +77,20 @@ void prune(vector<complex<double>> &curve,bool closed,
      * Also, if lines ab, bc, and ca are all outside the circle, remove b.
      */
     if ((abs(a-b)+abs(b-c)-abs(c-a)<resolution && abs(pldist(b,c,a))<resolution) ||
-	(abs(pldist(center,a,b))>radius || abs(pldist(center,b,c))>radius ||
+	(abs(pldist(center,a,b))>radius && abs(pldist(center,b,c))>radius &&
 	 abs(pldist(center,c,a))>radius))
     {
       curve.erase(curve.begin()+i);
-      sz=n=curve.size();
+      sz=curve.size();
+      n=sz+3;
     }
     else
     {
       n--;
-      if (abs(a-center)>10*radius && // Don't leave points so far out
+      /*if (abs(a-center)>1.5*radius && // Don't leave points so far out
 	  abs(b-center)>10*radius && // that PostScript makes overflow
-	  abs(c-center)>10*radius)   // errors plotting them.
-	curve[i]=(curve[i]+center)/2.;
+	  abs(c-center)>1.5*radius)   // errors plotting them.
+	curve[i]=(curve[i]+center)/2.;*/
     }
   }
 }
