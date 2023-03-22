@@ -69,3 +69,12 @@ double pldist(complex<double> a,complex<double> b,complex<double> c)
 {
   return area3(a,b,c)/abs(b-c)*2;
 }
+
+bool obtuse(complex<double> a,complex<double> b,complex<double> c)
+// Returns true angle abc is obtuse.
+{
+  if (a!=b && b!=c)
+    return real((a-b)/(b-c))<0;
+  else
+    return false;
+}
