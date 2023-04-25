@@ -192,6 +192,25 @@ void outMismatch(const vector<complex<double> > &prevLoop,const vector<complex<d
   file<<"</table></body></html>\n";
 }
 
+void series(double x)
+/* Try to compute the power series coefficients of խ(z) in terms of exp(z)
+ * from the loop at x. This is a slow Fourier transform for licensing reasons.
+ */
+{
+  vector<complex<double>> loop=khe.getLoop(x);
+  int i,j;
+  double coeff;
+  vector<double> unrotated;
+  for (i=0;i<loop.size()/27;i++)
+  {
+    unrotated.clear();
+    for (j=0;j<loop.size();j+=9)
+      unrotated.push_back(real(loop[j]*exp(complex<double>(-x,-2*M_PI*j/loop.size())*(double)i)));
+    coeff=pairwisesum(unrotated)/unrotated.size();
+    cout<<i<<' '<<ldecimal(coeff)<<endl;
+  }
+}
+
 void plotSquare(PostScript &ps,Khe &f,complex<double> cen,complex<double> h)
 /* Plot the values of խ(z) for z being lattice points of a small square.
  * Since խ(z) is analytic, the plot should look like a square, unless the
@@ -679,10 +698,11 @@ int main(int argc,char **argv)
   cout<<"221: "<<khe221(complex<double>(-1,-1))<<endl;
   //zoomOut();
   //sweep();
-  zoomIn();
+  //zoomIn();
   //rasterplot(khe,2000,2000,"khe.ppm");
   fractions();
   modform();
   cout<<compand(1e-100)<<' '<<compand(100)<<endl;
+  series(-1);
   return 0;
 }
