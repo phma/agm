@@ -207,6 +207,8 @@ void series(double x)
     for (j=0;j<loop.size();j+=9)
       unrotated.push_back(real(loop[j]*exp(complex<double>(-x,-2*M_PI*j/loop.size())*(double)i)));
     coeff=pairwisesum(unrotated)/unrotated.size();
+    if (fabs(coeff)<0.9 && fabs(coeff)>0.001)
+      break;
     if (fabs(coeff)<0.001)
       cout<<i<<" 0\n";
     else
@@ -706,6 +708,6 @@ int main(int argc,char **argv)
   fractions();
   modform();
   cout<<compand(1e-100)<<' '<<compand(100)<<endl;
-  series(-1);
+  series(-0.25);
   return 0;
 }
