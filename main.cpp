@@ -216,6 +216,36 @@ void series(double x)
   }
 }
 
+int a004018(int n)
+/* Returns the number of square lattice points on a circle of radius √n.
+ * Factorizes n, then for each p**k:
+ *   if p==2, ignore;
+ *   if p%4==1, multiply by k+1;
+ *   if p%4==3, multiply by 0 if k is odd;
+ * and return 4 times the product.
+ */
+{
+  int ret=4,p,k;
+  if (n<1)
+    ret=n==0;
+  else
+  {
+    while ((n&1)==0)
+      n/=2;
+    for (p=3;ret>0 && p<=n;p+=2)
+      if (n%p==0)
+      {
+	for (k=0;n%p==0;k++)
+	  n/=p;
+	if (p%4==1)
+	  ret*=k+1;
+	else if (k%2)
+	  ret=0;
+      }
+  }
+  return ret;
+}
+
 void plotSquare(PostScript &ps,Khe &f,complex<double> cen,complex<double> h)
 /* Plot the values of խ(z) for z being lattice points of a small square.
  * Since խ(z) is analytic, the plot should look like a square, unless the
@@ -709,5 +739,7 @@ int main(int argc,char **argv)
   modform();
   cout<<compand(1e-100)<<' '<<compand(100)<<endl;
   series(-0.25);
+  for (i=0;i<20;i++)
+    cout<<i<<' '<<a004018(i)<<endl;
   return 0;
 }
