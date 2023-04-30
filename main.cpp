@@ -207,7 +207,10 @@ void series(double x)
     for (j=0;j<loop.size();j+=9)
       unrotated.push_back(real(loop[j]*exp(complex<double>(-x,-2*M_PI*j/loop.size())*(double)i)));
     coeff=pairwisesum(unrotated)/unrotated.size();
-    cout<<i<<' '<<ldecimal(coeff)<<endl;
+    if (fabs(coeff)<0.001)
+      cout<<i<<" 0\n";
+    else
+      cout<<i<<' '<<ldecimal(coeff,0.001)<<endl;
   }
 }
 
