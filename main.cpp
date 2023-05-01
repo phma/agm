@@ -246,6 +246,43 @@ int a004018(int n)
   return ret;
 }
 
+int productTerm(int n)
+{
+  int i,ret=0;
+  for (i=0;i<=n;i++)
+    if (i&1)
+      ret-=a004018(i)*a004018(n-i);
+    else
+      ret+=a004018(i)*a004018(n-i);
+  return ret;
+}
+
+int squareTerm(int n)
+{
+  int i,ret=0;
+  for (i=0;i<=n;i++)
+    ret+=a004018(i)*a004018(n-i);
+  return ret;
+}
+
+void checkSeriesProduct()
+/* Check that the series Σa004018(n)*exp(n*z) satisfies the functional equation
+ * խ(z)*խ(z+πi)=խ(2z+πi)². The other equation, խ(z)+խ(z+πi)=2խ(2z), reduces
+ * to a004018(n)=a004018(2*n), which is obvious from the definition.
+ * Iterates to 51, as at term 25 A104794, which looks like A004018 with
+ * alternate signs, differs from A253185.
+ */
+{
+  int i;
+  for (i=0;i<51;i++)
+  {
+    cout<<i<<' '<<productTerm(i);
+    if (i%2==0)
+      cout<<' '<<squareTerm(i/2);
+    cout<<endl;
+  }
+}
+
 void plotSquare(PostScript &ps,Khe &f,complex<double> cen,complex<double> h)
 /* Plot the values of խ(z) for z being lattice points of a small square.
  * Since խ(z) is analytic, the plot should look like a square, unless the
@@ -739,7 +776,6 @@ int main(int argc,char **argv)
   modform();
   cout<<compand(1e-100)<<' '<<compand(100)<<endl;
   series(-0.25);
-  for (i=0;i<20;i++)
-    cout<<i<<' '<<a004018(i)<<endl;
+  checkSeriesProduct();
   return 0;
 }
